@@ -10,7 +10,6 @@ import Header from "./components/Header.vue";
 </template>
 
 <script>
-export default {};
 </script>
 
 <style>

@@ -37,12 +37,14 @@ router
                             {
                                 username: results.rows[0].username,
                                 userid: results.rows[0]["user_id"],
+                                admin: results.rows[0].admin
                             },
-                            "SECRETKEY",
+                            "4jRU=HyTeSf*$4JxN9&BupHJxaBNFX-A&F!NvR=JJ&L$LrPYYJqG8%HRNLKY!MKmcnXxGr!88nzXPgA8snQb6ad93NdrjjgK^F7K",
                             {
-                                expiresIn: "7d",
+                                expiresIn: "6h",
                             }
                         );
+                        console.log(token)
 
                         pool.query(
                             `UPDATE users

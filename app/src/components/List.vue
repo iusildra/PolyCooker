@@ -1,6 +1,12 @@
 <script setup>
 import Tile from "./Tile.vue";
-defineProps({});
+defineProps({
+    userid: {
+        type: String,
+        required: false,
+        default: "",
+    },
+});
 </script>
 
 <template>
@@ -23,9 +29,11 @@ defineProps({});
 </template>
 
 <script>
+import axios from "axios";
+// axios.defaults.headers.common["Authorization"] = `Bearer ${this.$store.state.token}`;
 export default {
     mounted() {
-        this.fetchRecipes();
+        this.fetchRecipes(this.userid);
     },
     data() {
         return {
@@ -35,13 +43,16 @@ export default {
     methods: {
         fetchRecipes(id = "") {
             if (id.length == 0)
-                fetch("http://localhost:3080/api/recipes")
-                    .then((res) => res.json())
-                    .then((data) => (this.recipes = data));
+                axios
+                    .get("http://localhost:3080/api/recipes")
+                    .then((response) => (this.recipes = response.data));
             else
-                fetch("http://localhost:3080/api/users/" + id)
-                    .then((res) => res.json())
-                    .then((data) => (this.recipes = data));
+                axios
+                    .get("http://localhost:3080/api/users/" + id)
+                    .then((response) => {
+                        console.log(response.data);
+                        this.recipes = response.data;
+                    });
         },
     },
 };

@@ -25,8 +25,6 @@ defineProps({});
 </template>
 
 <script>
-import { ref } from "vue";
-import { useStore } from "vuex";
 import AuthService from "../services/AuthServices";
 M.AutoInit();
 
@@ -51,7 +49,7 @@ export default {
                 });
             } catch (error) {
                 M.toast({
-                    html: error /*.response.data.msg*/,
+                    html: error.response.data.msg,
                     classes: "rounded",
                 });
             }

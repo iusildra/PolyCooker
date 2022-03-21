@@ -1,5 +1,4 @@
 import { createApp } from "vue";
-import Vuex from "vuex";
 import App from "./App.vue";
 import { createRouter, createWebHashHistory } from "vue-router";
 import Calendar from "./views/Calendar.vue";

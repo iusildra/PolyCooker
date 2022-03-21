@@ -44,14 +44,12 @@
                     >
                 </li>
             </ul>
-
-            <ul class="sidenav" id="mobile-demo"></ul>
         </div>
     </header>
 </template>
 
 <script>
-import AuthService from "../services/AuthServices";
+M.AutoInit()
 export default {
     data() {
         return { getters: this.$store.getters };
@@ -80,14 +78,8 @@ export default {
         logout() {
             this.$store.dispatch("logout");
             this.$router.push("/");
+            M.toast({html: "Goodbye !", classes:"rounded"})
         },
-    },
-    async created() {
-        if (!this.$store.getters.isLoggedIn) {
-            this.$router.push("/");
-        }
-        this.username = this.$store.getters.getUser.username;
-        this.secretMessage = await AuthService.getSecretContent();
     },
 };
 </script>

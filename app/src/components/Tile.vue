@@ -20,17 +20,21 @@ defineProps({
             />
         </div>
         <div class="card-content">
-            <span class="card-title">{{ recipe["recipe_name"] }}</span>
+            <span class="card-title center">{{ recipe["recipe_name"] }}</span>
             <p class="center">{{ recipe["username"] }}</p>
-            <p>Difficulty : {{ recipe["recipe_difficulty"] }}</p>
-            <p>
-                Cost :
-                {{ recipe["recipe_cost"] }}
+            <p class="center">
+                Difficulty : {{ recipe["recipe_difficulty"] }} / 5
             </p>
-            <p>Season : {{ recipe["season_name"] }}</p>
-        </div>
-        <div class="card-action">
-            <a href="#">Some action</a>
+            <p class="center">
+                Cost :
+                {{ recipe["recipe_cost"] }} / 5
+            </p>
+            <p class="center">Season : {{ recipe["season_name"] }}</p>
+            <div class="card-action">
+                <a>
+                    <p class="center">Add to my calendar</p>
+                </a>
+            </div>
         </div>
     </div>
 </template>
@@ -43,7 +47,7 @@ export default {
     methods: {
         chooseRecipe(id) {
             //Open recipe in new page
-        }
+        },
     },
 };
 </script>
