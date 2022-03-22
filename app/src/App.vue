@@ -11,6 +11,9 @@ import Header from "./components/Header.vue";
         @listReady="fetchRecipes"
     ></router-view>
     <Footer></Footer>
+    <a class="btn-floating btn-large waves-effect waves-light red"
+        ><i class="material-icons">add</i></a
+    >
 </template>
 
 <script>
@@ -29,7 +32,12 @@ export default {
             }
             axios
                 .get("http://localhost:3080/api/recipes", {
-                    params: { search: search, id: id, limit: limit, offset: offset },
+                    params: {
+                        search: search,
+                        id: id,
+                        limit: limit,
+                        offset: offset,
+                    },
                     headers: {
                         "Content-Type": "application/json",
                     },

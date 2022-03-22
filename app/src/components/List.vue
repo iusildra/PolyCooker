@@ -15,7 +15,7 @@ defineProps({
 </script>
 
 <template>
-    <div class="col s12 m9 l10 xl10" id="recipe_list">
+    <div class="col s12 m9 l9 xl10" id="recipe_list">
         <ul class="pagination">
             <li class="disabled">
                 <a href="#!"><i class="material-icons">chevron_left</i></a>

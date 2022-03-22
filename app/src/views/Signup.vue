@@ -55,7 +55,6 @@ export default {
                     credentials[elt.id] = elt.value;
                 });
                 const response = await AuthService.signup(credentials);
-                console.log(response)
                 M.toast({ html: response.msg, classes: "rounded" });
             } catch (error) {
                 M.toast({ html: error.response.data.msg, classes: "rounded" });

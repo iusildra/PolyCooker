@@ -8,34 +8,35 @@ defineProps({
 </script>
 <template>
     <div
-        class="card col s5 m5 l3 xl3 hoverable"
+        class="col s12 m6 l4 xl3"
         v-for="recipe of this.recipes"
         :key="recipe['recipe_id']"
     >
-        <div class="card-image">
-            <img
-                class="responsive-img"
-                src="../assets/img/food.png"
-                :alt="recipe.name + '\'s picture'"
-            />
-        </div>
-        <div class="card-content">
-            <span class="card-title center">{{ recipe["recipe_name"] }}</span>
-            <p class="center">{{ recipe["username"] }}</p>
-            <p class="center">
-                Difficulty : {{ recipe["recipe_difficulty"] }} / 5
-            </p>
-            <p class="center">
-                Cost :
-                {{ recipe["recipe_cost"] }} / 5
-            </p>
-            <p class="center">Season : {{ recipe["season_name"] }}</p>
-            <p class="center">Type : {{recipe["type_name"]}}</p>
-            <p class="center">Diet : {{recipe["diet_name"]}}</p>
-            <div class="card-action">
-                <a>
-                    <p class="center">Add to my calendar</p>
-                </a>
+        <div class="card hoverable">
+            <div class="card-image">
+                <img
+                    src="../assets/img/food.png"
+                    :alt="recipe.name + '\'s picture'"
+                />
+            </div>
+            <div class="card-content">
+                <span class="card-title center">{{ recipe["recipe_name"] }}</span>
+                <p class="center">{{ recipe["username"] }}</p>
+                <p class="center">
+                    Difficulty : {{ recipe["recipe_difficulty"] }} / 5
+                </p>
+                <p class="center">
+                    Cost :
+                    {{ recipe["recipe_cost"] }} / 5
+                </p>
+                <p class="center">Season : {{ recipe["season_name"] }}</p>
+                <p class="center">Type : {{recipe["type_name"]}}</p>
+                <p class="center">Diet : {{recipe["diet_name"]}}</p>
+                <div class="card-action">
+                    <a>
+                        <p class="center">Add to my calendar</p>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -62,8 +63,6 @@ img {
 .card {
     display: flex;
     flex-direction: column;
-    max-width: 250px;
-    margin: 10px 10px;
     justify-content: space-around;
     align-content: space-around;
 }

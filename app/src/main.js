@@ -16,6 +16,7 @@ const routes = [
     { path: "/signup", component: Signup },
     { path: "/account", component: Account },
     { path: "/calendar", component: Calendar },
+    { path: "/createuser", component: Signup },
 ];
 
 const router = createRouter({

@@ -12,7 +12,8 @@ router
             FROM users
             WHERE username=%L
                 OR email=%L`,
-            req.body.emailusername, req.body.emailusername
+            req.body.emailusername,
+            req.body.emailusername
         );
         pool.query(sql, (err, results) => {
             if (err)
@@ -20,13 +21,11 @@ router
                     .status(500)
                     .send({ msg: "DB Error, please try again" });
             if (results.rows.length != 1) {
-                return res
-                    .status(418)
-                    .send({ msg: "Username is incorrect !" });
+                return res.status(418).send({ msg: "Username is incorrect !" });
             }
             bcryptjs.compare(
                 req.body.passwd,
-                results.rows[0]['passwd'],
+                results.rows[0]["passwd"],
                 (bErr, bRes) => {
                     if (bErr)
                         return res
@@ -37,26 +36,17 @@ router
                             {
                                 username: results.rows[0].username,
                                 userid: results.rows[0]["user_id"],
-                                admin: results.rows[0].admin
+                                admin: results.rows[0].admin,
                             },
                             "4jRU=HyTeSf*$4JxN9&BupHJxaBNFX-A&F!NvR=JJ&L$LrPYYJqG8%HRNLKY!MKmcnXxGr!88nzXPgA8snQb6ad93NdrjjgK^F7K",
                             {
                                 expiresIn: "6h",
                             }
                         );
-
-                        pool.query(
-                            `UPDATE users
-                            SET last_login=NOW()
-                            WHERE user_id=${results.rows[0]["user_id"]}`,
-                            (err, uRes) => {
-                                return res.status(200).send({
-                                    msg: "Logged in !",
-                                    token,
-                                    user: results.rows[0],
-                                });
-                            }
-                        );
+                        return res.status(200).send({
+                            token,
+                            user: results.rows[0],
+                        });
                     } else {
                         return res.status(400).send({
                             msg: "Username or password incorrect !",
@@ -82,4 +72,4 @@ router
         return res.status(405).send({ msg: "Action not authorized !" });
     });
 
-module.exports = router
+module.exports = router;

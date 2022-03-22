@@ -30,12 +30,15 @@
                 <li>
                     <router-link to="/calendar">Calendar</router-link>
                 </li>
-                <li class="divider" v-if="!getters.isLoggedIn"></li>
+                <li class="divider" v-if="!getters.isLoggedIn || getters.getUser.admin"></li>
                 <li v-if="!getters.isLoggedIn">
                     <router-link to="/signin">Sign in</router-link>
                 </li>
                 <li v-if="!getters.isLoggedIn">
                     <router-link to="/signup">Sign up</router-link>
+                </li>
+                <li v-if="getters.isLoggedIn && getters.getUser.admin">
+                    <router-link to="/createuser">Create user</router-link>
                 </li>
                 <li class="divider" v-if="getters.isLoggedIn"></li>
                 <li v-if="getters.isLoggedIn">

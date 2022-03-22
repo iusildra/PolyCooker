@@ -8,7 +8,7 @@ defineProps({
 </script>
 
 <template>
-    <div class="search col s12 m3 l2 xl2">
+    <div class="search col s12 m3 l3 xl2">
         <form id="searchRecipe" @submit.prevent="onSubmit">
             <h5>Search</h5>
             <div class="searchElement" v-if="personalPage">
