@@ -44,7 +44,6 @@ router
                                 expiresIn: "6h",
                             }
                         );
-                        console.log(token)
 
                         pool.query(
                             `UPDATE users

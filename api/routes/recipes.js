@@ -5,39 +5,81 @@ const pool = require("../db");
 const defaultLimit = 25;
 
 const error500 = { msg: "DB Error, please try again" };
-const getAllRecipes = `SELECT 
-    recipe_id, recipe_name, username,
-    recipe_for, season_name, recipe_type,
-    recipe_diet, recipe_difficulty, recipe_cost,
-    creation_date
-    FROM recipes
-    INNER JOIN users ON user_id=recipe_author
-    LEFT JOIN seasons ON recipe_season=season_id
-    LIMIT %L OFFSET %L`;
-const getRecipeByIdOrName = `SELECT 
+
+const getRecipeById = `SELECT 
     recipe_id, recipe_name, username,
     recipe_for, recipe_steps, season_name, 
-    recipe_type, recipe_diet, recipe_difficulty, 
+    type_name, diet_name, recipe_difficulty, 
     recipe_cost, creation_date
     FROM recipes
     INNER JOIN users ON user_id=recipe_author
     LEFT JOIN seasons ON recipe_season=season_id
-    WHERE %s
-    LIMIT %L OFFSET %L`;
+    LEFT JOIN types ON recipe_type=type_id
+    LEFT JOIN diets ON recipe_diet=diet_id
+    WHERE recipe_id=%L`;
 const insertRecipe = `INSERT INTO recipes VALUES
         (%L, %L, %L, %L, %L, %L, %L, %L, %L, %L, %L)`;
 
+function makeRecipeRequest(
+    params = { search: "{}", id:"", limit: 25, offset: 0 }
+) {
+    let getSomeRecipes = format(
+        `SELECT 
+        recipe_id, recipe_name, username,
+        recipe_for, season_name, type_name,
+        diet_name, recipe_difficulty, recipe_cost,
+        creation_date
+    FROM recipes
+    INNER JOIN users ON user_id=recipe_author
+    LEFT JOIN seasons ON recipe_season=season_id
+    LEFT JOIN types ON recipe_type=type_id
+    LEFT JOIN diets ON recipe_diet=diet_id`
+    );
+
+    console.log(params)
+    console.log("params.search =", params.search)
+    const search = JSON.parse(params.search);
+    if (Object.keys(search).length > 0) {
+        getSomeRecipes += "\nWHERE";
+        if (search.author != null)
+            getSomeRecipes += format(
+                ` username LIKE '%%%s%%' AND`,
+                search.author
+            );
+        if (search.recipe != null)
+            getSomeRecipes += format(
+                ` LOWER(recipe_name) LIKE LOWER('%%%s%%') AND`,
+                search.recipe
+            );
+        if (search.seasonID != null)
+            getSomeRecipes += format(` recipe_season=%L AND`, search.seasonID);
+        if (search.typeID != null)
+            getSomeRecipes += format(` recipe_type=%L AND`, search.typeID);
+        if (search.dietID != null)
+            getSomeRecipes += format(` recipe_diet=%L AND`, search.dietID);
+        if (params.id.length > 0)
+            getSomeRecipes += format(` user_id=%L AND`, params.id)
+        getSomeRecipes = getSomeRecipes.slice(
+            0,
+            getSomeRecipes.lastIndexOf(" ")
+        );
+    }
+
+    getSomeRecipes += format(
+        `\nOFFSET %L LIMIT %L`,
+        parseInt(params.offset, 10),
+        parseInt(params.limit, 10)
+    );
+    console.log(getSomeRecipes);
+    return getSomeRecipes;
+}
+
 router
     .route("/")
-    .all((req, res, next) => {
-        next();
-    })
     .get((req, res) => {
-        let limit = isNaN(req.query["limit"])
-            ? defaultLimit
-            : req.query["limit"];
-        let offset = isNaN(req.query["offset"]) ? 0 : req.query["offset"];
-        const sql = format(getAllRecipes, limit, offset);
+        let sql = "";
+        if (Object.keys(req.query).length > 0) sql = makeRecipeRequest(req.query);
+        else sql = makeRecipeRequest();
         pool.query(sql, (err, results) => {
             if (err) res.status(500).send(error500);
             else res.status(200).json(results.rows);
@@ -70,17 +112,7 @@ router
         next();
     })
     .get((req, res) => {
-        let limit = isNaN(req.query["limit"])
-            ? defaultLimit
-            : req.query["limit"];
-        let offset = isNaN(req.query["offset"]) ? 0 : req.query["offset"];
-        let cond = isNaN(parseInt(req.params["id"], 10))
-            ? "LOWER(recipe_name) LIKE LOWER('%%%s%%')"
-            : "recipe_id=%L";
-        const sql = format(
-            format(getRecipeByIdOrName, cond, limit, offset),
-            req.params["id"]
-        );
+        const sql = format(getRecipeById, req.params["id"], limit, offset);
         pool.query(sql, (err, results) => {
             if (err) res.status(500).send(error500);
             else if (results != null) res.status(200).json(results.rows);
@@ -98,9 +130,5 @@ router
             else res.status(200);
         });
     });
-
-router.route("/?").post((req, res) => {
-    res.send("hello")
-})
 
 module.exports = router;

@@ -14,17 +14,17 @@
 					<h5 class="white-text">Links</h5>
 					<ul>
 						<li>
-							<a class="grey-text text-lighten-3" href="https://github.com/iusildra"
+							<a class="grey-text text-lighten-3" href="https://github.com/iusildra" target="_blank"
 								>My Github</a
 							>
 						</li>
 						<li>
-							<a class="grey-text text-lighten-3" href="https://www.linkedin.com/in/lucas-nouguier-833725196/"
+							<a class="grey-text text-lighten-3" href="https://www.linkedin.com/in/lucas-nouguier-833725196/" target="_blank"
 								>Mon Linkedin (Français)</a
 							>
 						</li>
 						<li>
-							<a class="grey-text text-lighten-3" href="https://www.linkedin.com/in/lucas-nouguier-833725196/?locale=en_US"
+							<a class="grey-text text-lighten-3" href="https://www.linkedin.com/in/lucas-nouguier-833725196/?locale=en_US" target="_blank"
 								>My Linkedin (English)</a
 							>
 						</li>

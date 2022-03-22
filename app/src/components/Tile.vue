@@ -30,6 +30,8 @@ defineProps({
                 {{ recipe["recipe_cost"] }} / 5
             </p>
             <p class="center">Season : {{ recipe["season_name"] }}</p>
+            <p class="center">Type : {{recipe["type_name"]}}</p>
+            <p class="center">Diet : {{recipe["diet_name"]}}</p>
             <div class="card-action">
                 <a>
                     <p class="center">Add to my calendar</p>

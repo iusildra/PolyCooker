@@ -6,7 +6,7 @@ defineProps({});
     <div class="container">
         <form id="signup" @submit.prevent="signup">
             <h3>Sign up</h3>
-            <div>
+            <div v-if="getters.getUser.admin">
                 <label>
                     <input type="checkbox" id="isAdmin" />
                     <span>Admin</span>
@@ -42,6 +42,11 @@ defineProps({});
 import AuthService from "../services/AuthServices";
 M.AutoInit();
 export default {
+    data() {
+        return {
+            getters: this.$store.getters
+        }
+    },
     methods: {
         signup: async () => {
             try {

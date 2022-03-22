@@ -6,6 +6,11 @@ defineProps({
         required: false,
         default: "",
     },
+    recipes: {
+        type: Array,
+        required: false,
+        default: [],
+    },
 });
 </script>
 
@@ -29,33 +34,7 @@ defineProps({
 </template>
 
 <script>
-import axios from "axios";
-// axios.defaults.headers.common["Authorization"] = `Bearer ${this.$store.state.token}`;
-export default {
-    mounted() {
-        this.fetchRecipes(this.userid);
-    },
-    data() {
-        return {
-            recipes: [],
-        };
-    },
-    methods: {
-        fetchRecipes(id = "") {
-            if (id.length == 0)
-                axios
-                    .get("http://localhost:3080/api/recipes")
-                    .then((response) => (this.recipes = response.data));
-            else
-                axios
-                    .get("http://localhost:3080/api/users/" + id)
-                    .then((response) => {
-                        console.log(response.data);
-                        this.recipes = response.data;
-                    });
-        },
-    },
-};
+export default {};
 </script>
 
 <style scoped>

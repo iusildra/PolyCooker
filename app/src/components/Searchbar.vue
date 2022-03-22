@@ -1,12 +1,17 @@
 <script setup>
-defineProps({});
+defineProps({
+    personalPage: {
+        type: Boolean,
+        required: true,
+    },
+});
 </script>
 
 <template>
     <div class="search col s12 m3 l2 xl2">
         <form id="searchRecipe" @submit.prevent="onSubmit">
             <h5>Search</h5>
-            <div class="searchElement">
+            <div class="searchElement" v-if="personalPage">
                 <label for="author_search">Author</label>
                 <input
                     type="text"
@@ -33,7 +38,7 @@ defineProps({});
             </div>
             <div class="searchElement input-field">
                 <select id="season_select" v-model="this.season">
-                    <option value="-1" selected>All</option>
+                    <option value="0" selected>All</option>
                     <option
                         v-for="season of this.seasons"
                         :value="season['season_id']"
@@ -46,7 +51,7 @@ defineProps({});
             </div>
             <div class="searchElement input-field">
                 <select id="type_select" v-model="this.type">
-                    <option value="-1" selected>All</option>
+                    <option value="0" selected>All</option>
                     <option
                         v-for="type of this.types"
                         :value="type['type_id']"
@@ -59,7 +64,7 @@ defineProps({});
             </div>
             <div class="searchElement input-field">
                 <select id="diet_select" v-model="this.diet">
-                    <option value="-1" selected>All</option>
+                    <option value="0" selected>All</option>
                     <option
                         v-for="diet of this.diets"
                         :value="diet['diet_id']"
@@ -96,11 +101,11 @@ defineProps({});
 </template>
 
 <script>
-import axios from "axios"
+import axios from "axios";
 
 M.AutoInit();
-axios.defaults.headers.common["Content-Type"] = "application/json"
-axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*"
+axios.defaults.headers.common["Content-Type"] = "application/json";
+axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
 export default {
     mounted() {
         this.fetchOptions(() => {
@@ -123,14 +128,20 @@ export default {
     },
     methods: {
         onSubmit() {
-            const search = {
-                author: this.authorSearch,
-                recipe: this.recipeSearch,
-                ingredients: this.ingredientsSearch.split(" "),
-                seasonID: parseInt(this.season, 10),
-                typeID: parseInt(this.type, 10),
-                diet: parseInt(this.diet, 10),
-            };
+            let search = {};
+            if (this.authorSearch.length > 0)
+                search["author"] = this.authorSearch;
+            if (this.recipeSearch.length > 0)
+                search["recipe"] = this.recipeSearch;
+            if (this.ingredientsSearch.length > 0)
+                search["ingredients"] = this.ingredientsSearch.split(" ");
+            if (parseInt(this.season, 10) > 0)
+                search["seasonID"] = parseInt(this.season, 10);
+            if (parseInt(this.type, 10) > 0)
+                search["typeID"] = parseInt(this.type, 10);
+            if (parseInt(this.diet, 10) > 0)
+                search["dietID"] = parseInt(this.diet, 10);
+
             this.$emit("searchRecipes", search);
         },
         async fetchOptions(callback) {

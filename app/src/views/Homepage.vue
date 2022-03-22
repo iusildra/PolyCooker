@@ -1,36 +1,36 @@
 <script setup>
 import Searchbar from "../components/Searchbar.vue";
 import List from "../components/List.vue";
+defineProps({
+    recipes: {
+        type: Array,
+        required: true,
+        default: [],
+    },
+});
 </script>
 
 <template>
     <div class="row">
-        <Searchbar @searchRecipes="searchRecipes"></Searchbar>
-        <List :searchedRecipes="this.recipes"></List>
+        <Searchbar @searchRecipes="searchRecipes" :personalPage="true"></Searchbar>
+        <List :recipes="this.recipes"></List>
     </div>
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
+    mounted() {
+        this.fetchRecipes()
+    },
     data() {
-        return {
-            recipes: [],
-        };
+        return {};
     },
     methods: {
-        searchRecipes: (search) => {
-            console.log(search)
-            axios
-                .get("localhost:3080/api/recipes", {
-                    params: search,
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                })
-                .then((response) => console.log(response))
-                .catch((err) => console.log(err.json()));
+        searchRecipes: function (search) {
+            this.$emit("searchRecipes", search, ""); //Empty id
+        },
+        fetchRecipes: function () {
+            this.$emit("listReady", "") //Empty id
         },
     },
 };

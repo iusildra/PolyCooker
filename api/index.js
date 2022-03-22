@@ -10,7 +10,7 @@ bodyParser.urlencoded({
     extended: false
 });
 
-app.use(cors("http://localhost:3000"));
+app.use(cors({ origin:"http://localhost:3000", optionsSuccessStatus: 204}));
 app.use(bodyParser.json());
 app.use("/api", router);
 

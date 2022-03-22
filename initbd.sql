@@ -24,8 +24,8 @@ create table units(
 
 create table users(
 	user_id TEXT PRIMARY KEY,
-	email TEXT NOT NULL,
-	username TEXT NOT NULL,
+	email TEXT NOT NULL UNIQUE,
+	username TEXT NOT NULL UNIQUE,
 	admin BOOLEAN NOT NULL,
 	passwd TEXT NOT NULL,
 	registration DATE NOT NULL,
