@@ -11,32 +11,35 @@ defineProps({
     <div class="search col s12 m3 l3 xl2">
         <form id="searchRecipe" @submit.prevent="onSubmit">
             <h5>Search</h5>
-            <div class="searchElement" v-if="personalPage">
-                <label for="author_search">Author</label>
+            <div class="input-field" v-if="personalPage">
                 <input
                     type="text"
                     id="author_search"
                     v-model="this.authorSearch"
                 />
+                <label for="author_search" class="caption">Author</label>
             </div>
-            <div class="searchElement">
-                <label for="recipe_search">Recipe</label>
+            <div class="input-field">
                 <input
                     type="text"
                     id="recipe_search"
                     v-model="this.recipeSearch"
                 />
+                <label for="recipe_search">Recipe</label>
             </div>
-            <div class="searchElement">
+            <div class="input-field">
+                <div id="ingredient_chips" class="chips">
+                    <input
+                        id="ingredients_search"
+                        class="autocomplete"
+                        placeholder="Enter a tag"
+                        @input="getAutoComplete"
+                        autocomplete="off"
+                    />
+                </div>
                 <label for="ingredients_search">Ingredient</label>
-                <input
-                    type="text"
-                    id="ingredients_search"
-                    placeholder="Separate with space"
-                    v-model="this.ingredientsSearch"
-                />
             </div>
-            <div class="searchElement input-field">
+            <div class="input-field">
                 <select id="season_select" v-model="this.season">
                     <option value="0" selected>All</option>
                     <option
@@ -49,7 +52,7 @@ defineProps({
                 </select>
                 <label for="season_select">Season</label>
             </div>
-            <div class="searchElement input-field">
+            <div class="input-field">
                 <select id="type_select" v-model="this.type">
                     <option value="0" selected>All</option>
                     <option
@@ -62,7 +65,7 @@ defineProps({
                 </select>
                 <label for="type_select">Type</label>
             </div>
-            <div class="searchElement input-field">
+            <div class="input-field">
                 <select id="diet_select" v-model="this.diet">
                     <option value="0" selected>All</option>
                     <option
@@ -103,14 +106,12 @@ defineProps({
 <script>
 import axios from "axios";
 
-M.AutoInit();
 axios.defaults.headers.common["Content-Type"] = "application/json";
 axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
 export default {
     mounted() {
         this.fetchOptions(() => {
-            var elems = document.querySelectorAll("select");
-            M.FormSelect.init(elems, {});
+            M.AutoInit();
         });
     },
     data() {
@@ -120,28 +121,52 @@ export default {
             diets: [],
             authorSearch: "",
             recipeSearch: "",
-            ingredientsSearch: "",
             season: 0,
             type: 0,
             diet: 0,
         };
     },
     methods: {
+        getAutoComplete() {
+            let input = document.getElementById("ingredients_search");
+            const value = input.value;
+            if (value.length >= 3) {
+                axios
+                    .get("http://localhost:3080/api/ingredients/name/" + value)
+                    .then((response) => {
+                        let results = response.data
+                            .map((elt) => `"${elt["ingredient_name"]}":""`)
+                            .join();
+                        results = "{" + results + "}";
+                        let instance = M.Autocomplete.getInstance(input);
+                        instance.updateData(JSON.parse(results));
+                    });
+            }
+        },
+        getIngredients() {
+            let chips = document.querySelectorAll(".chip");
+            let ingredients = [];
+            chips.forEach((elt) => {
+                ingredients.push(elt.innerHTML.split("<")[0]); //Split to exclude the icon inside the chip
+            });
+            console.log(ingredients);
+            return ingredients;
+        },
         onSubmit() {
             let search = {};
+            let ingredients = this.getIngredients();
             if (this.authorSearch.length > 0)
                 search["author"] = this.authorSearch;
             if (this.recipeSearch.length > 0)
                 search["recipe"] = this.recipeSearch;
-            if (this.ingredientsSearch.length > 0)
-                search["ingredients"] = this.ingredientsSearch.split(" ");
+            if (ingredients.length > 0) search["ingredients"] = ingredients;
             if (parseInt(this.season, 10) > 0)
                 search["seasonID"] = parseInt(this.season, 10);
             if (parseInt(this.type, 10) > 0)
                 search["typeID"] = parseInt(this.type, 10);
             if (parseInt(this.diet, 10) > 0)
                 search["dietID"] = parseInt(this.diet, 10);
-
+            console.log(search);
             this.$emit("searchRecipes", search);
         },
         async fetchOptions(callback) {
@@ -166,11 +191,6 @@ form {
     flex-direction: column;
     flex: 1 1 0;
 }
-.searchElement {
-    padding: 0px 10px;
-    text-align: left;
-    color: black;
-}
 
 .search {
     border-right: 1px solid black;
@@ -184,7 +204,15 @@ form {
     margin: 20px 0px 15px;
 }
 
+.input-field {
+    text-align: left;
+}
+
 #authorsList {
     max-height: 400px;
+}
+
+#ingredient_chips {
+    padding-top: 10px;
 }
 </style>

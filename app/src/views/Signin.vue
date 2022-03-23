@@ -40,7 +40,6 @@ export default {
                 const token = response.token;
                 const user = response.user;
 
-                console.log("1\n", token, user);
                 this.$store.dispatch("login", { token, user });
                 this.$router.push("/");
                 M.toast({

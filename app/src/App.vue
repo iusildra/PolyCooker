@@ -11,9 +11,15 @@ import Header from "./components/Header.vue";
         @listReady="fetchRecipes"
     ></router-view>
     <Footer></Footer>
-    <a class="btn-floating btn-large waves-effect waves-light red"
-        ><i class="material-icons">add</i></a
-    >
+    <div id="addRecipe">
+        <router-link
+            to="/createrecipe"
+            class="btn-floating btn-large waves-effect waves-light modal-trigger red"
+            href="#createRecipe"
+            v-if="getters.isLoggedIn"
+            ><i class="material-icons">add</i></router-link
+        >
+    </div>
 </template>
 
 <script>
@@ -22,6 +28,7 @@ export default {
     data() {
         return {
             recipes: [],
+            getters: this.$store.getters
         };
     },
     methods: {
@@ -67,5 +74,10 @@ export default {
 #app {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+#addRecipe {
+    position: fixed;
+    right: 50px;
+    bottom: 202px;
 }
 </style>

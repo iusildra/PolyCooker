@@ -6,6 +6,7 @@ import Homepage from "./views/Homepage.vue";
 import Account from "./views/Account.vue";
 import Signin from "./views/Signin.vue";
 import Signup from "./views/Signup.vue";
+import CreateRecipe from "./views/CreateRecipe.vue"
 import Axios from "axios";
 import store from "./store";
 
@@ -17,6 +18,7 @@ const routes = [
     { path: "/account", component: Account },
     { path: "/calendar", component: Calendar },
     { path: "/createuser", component: Signup },
+    { path: "/createrecipe", component: CreateRecipe },
 ];
 
 const router = createRouter({

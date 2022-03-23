@@ -37,6 +37,7 @@ create table recipes(
 	recipe_author TEXT REFERENCES users(user_id) ON DELETE CASCADE,
 	recipe_name TEXT NOT NULL,
 	recipe_for SMALLINT NOT NULL CHECK (recipe_for>0),
+	recipe_duration SMALLINT CHECK (recipe_duration > 0),
 	recipe_steps TEXT NOT NULL,
 	recipe_season INT REFERENCES seasons(season_id) ON DELETE SET NULL,
 	recipe_type INT REFERENCES types(type_id) ON DELETE SET NULL,
@@ -111,10 +112,10 @@ insert into users(user_id, email, username, admin, passwd, registration) values
 	('aaaa', 'LN@LN.LN', 'lulu', FALSE, 'azertyuiop', NOW());
 
 insert into recipes values
-	('a', 'Boiled rice', 'aaaa', 4, 'Boil some water, then throw the rice in', NULL, 2, 3, 1, 1, NOW()),
-	('aa', 'Boiled rice bis', 'aaaa', 2,  'Boil some water, then throw the rice in', NULL, 2, 3, 1, 1, NOW()),
-	('aaa', 'Boiled rice whith melon', 'aaaa', 10, 'Boil some water, then throw the rice & melon in', 3, 2, 3, 1, 1, NOW()),
-	('aaaa', 'Boiled rice with grapes', 'aaaa', 5, 'Boil some water, then throw the rice & grapes in', 4, 2, 3, 1, 1, NOW());
+	('a', 'Boiled rice', 'aaaa', 4, 30, 'Boil some water, then throw the rice in', NULL, 2, 3, 1, 1, NOW()),
+	('aa', 'Boiled rice bis', 'aaaa', 2, 30, 'Boil some water, then throw the rice in', NULL, 2, 3, 1, 1, NOW()),
+	('aaa', 'Boiled rice whith melon', 'aaaa', 20, 10, 'Boil some water, then throw the rice & melon in', 3, 2, 3, 1, 1, NOW()),
+	('aaaa', 'Boiled rice with grapes', 'aaaa', 15, 5, 'Boil some water, then throw the rice & grapes in', 4, 2, 3, 1, 1, NOW());
 
 insert into contains values 
 	('a', 'r', 1, 2),

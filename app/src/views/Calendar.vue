@@ -24,6 +24,18 @@ import Weeks from "../components/Weeks.vue";
 
 <script>
 export default {
+    mounted() {
+        if (!this.$store.getters.isLoggedIn) {
+            this.$router.push("/signup");
+            M.toast({
+                html: "You need to be logged in to access this page !",
+                classes: "rounded",
+            });
+        } else {
+            this.username = this.$store.getters.getUser.username;
+            this.id = this.$store.getters.getUser.user_id;
+        }
+    },
     data() {
         return {
             nbWeeks: 1,

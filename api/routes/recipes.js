@@ -36,7 +36,7 @@ function makeRecipeRequest(
     LEFT JOIN diets ON recipe_diet=diet_id`
     );
 
-    console.log(params)
+    console.log("recipes.js param :", params)
     console.log("params.search =", params.search)
     const search = JSON.parse(params.search);
     if (Object.keys(search).length > 0) {

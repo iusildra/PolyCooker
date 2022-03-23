@@ -13,7 +13,8 @@ router
 		FROM ingredients
 		ORDER BY ingredient_name ASC`,
             (err, results) => {
-                if (err) res.status(500).send({msg: "DB Error, please try again"});
+                if (err)
+                    res.status(500).send({ msg: "DB Error, please try again" });
                 else res.status(200).json(results.rows);
             }
         );
@@ -27,27 +28,31 @@ router
             req.query["season"]
         );
         pool.query(sql, (err, results) => {
-            if (err) res.status(500).send({msg: "DB Error, please try again"});
+            if (err)
+                res.status(500).send({ msg: "DB Error, please try again" });
             else res.status(200);
         });
     });
 
 router
-    .route("/:id")
+    .route("/id/:id")
     .all((req, res, next) => {
         next();
     })
     .get((req, res) => {
-        const cond = isNaN(parseInt(req.params["id"], 10)) ? "LOWER(ingredient_name) LIKE LOWER('%%%s%%')" : "ingredient_id=%L"
+        const cond = isNaN(parseInt(req.params["id"], 10))
+            ? "LOWER(ingredient_name) LIKE LOWER('%%%s%%')"
+            : "ingredient_id=%L";
         const sql = format(
             `SELECT *
 			FROM ingredients
-			WHERE ${cond}
+			WHERE ingredient_id=%L
 			ORDER BY ingredient_name ASC`,
             req.params["id"]
         );
         pool.query(sql, (err, results) => {
-            if (err) res.status(500).send({msg: "DB Error, please try again"});
+            if (err)
+                res.status(500).send({ msg: "DB Error, please try again" });
             else res.status(200).json(results.rows);
         });
     })
@@ -59,9 +64,29 @@ router
             req.params["id"]
         );
         pool.query(sql, (err, results) => {
-            if (err) res.status(500).send({msg: "DB Error, please try again"});
+            if (err)
+                res.status(500).send({ msg: "DB Error, please try again" });
             else res.status(200);
         });
+    });
+
+router
+    .route("/name/:name")
+    .all((req, res, next) => {
+        next();
+    })
+    .get((req, res) => {
+        const sql = format(
+            `SELECT *
+            FROM ingredients
+            WHERE LOWER(ingredient_name) LIKE LOWER('%s%%')
+            ORDER BY ingredient_name ASC`,
+            req.params["name"]
+        );
+        pool.query(sql, (err, results) => {
+            if (err) res.status(500).send({ msg: "DB Error, please try again" })
+            else res.status(200).send(results.rows)
+        })
     });
 
 module.exports = router;
