@@ -5,11 +5,8 @@
         <div class="navbar-fixed">
             <nav>
                 <div class="nav-wrapper">
-                    <router-link to="/" class="brand-logo"
-                        >Polycooker</router-link
-                    >
-                    <ul class="right hide-on-med-and-down">
-                        <li><router-link to="/">Home</router-link></li>
+                    <a @click="home" class="left brand-logo">Polycooker</a>
+                    <ul class="right">
                         <li>
                             <a
                                 class="dropdown-trigger"
@@ -30,7 +27,10 @@
                 <li>
                     <router-link to="/calendar">Calendar</router-link>
                 </li>
-                <li class="divider" v-if="!getters.isLoggedIn || getters.getUser.admin"></li>
+                <li
+                    class="divider"
+                    v-if="!getters.isLoggedIn || getters.getUser.admin"
+                ></li>
                 <li v-if="!getters.isLoggedIn">
                     <router-link to="/signin">Sign in</router-link>
                 </li>
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-M.AutoInit()
+M.AutoInit();
 export default {
     data() {
         return { getters: this.$store.getters };
@@ -81,7 +81,10 @@ export default {
         logout() {
             this.$store.dispatch("logout");
             this.$router.push("/");
-            M.toast({html: "Goodbye !", classes:"rounded"})
+            M.toast({ html: "Goodbye !", classes: "rounded" });
+        },
+        home() {
+            this.$router.push("/");
         },
     },
 };

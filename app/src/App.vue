@@ -7,8 +7,10 @@ import Header from "./components/Header.vue";
     <Header></Header>
     <router-view
         :recipes="this.recipes"
+        :recipe_id="this.chosenRecipe"
         @searchRecipes="searchRecipes"
         @listReady="fetchRecipes"
+        @recipeChosen="recipeChosen"
     ></router-view>
     <Footer></Footer>
     <div id="addRecipe">
@@ -28,7 +30,8 @@ export default {
     data() {
         return {
             recipes: [],
-            getters: this.$store.getters
+            chosenRecipe: "",
+            getters: this.$store.getters,
         };
     },
     methods: {
@@ -66,6 +69,9 @@ export default {
                         this.recipes = response.data;
                     });
         },
+        recipeChosen(id) {
+            this.chosenRecipe = id
+        }
     },
 };
 </script>

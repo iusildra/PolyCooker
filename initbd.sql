@@ -33,7 +33,7 @@ create table users(
 );
 
 create table recipes(
-	recipe_id TEXT,
+	recipe_id TEXT PRIMARY KEY,
 	recipe_author TEXT REFERENCES users(user_id) ON DELETE CASCADE,
 	recipe_name TEXT NOT NULL,
 	recipe_for SMALLINT NOT NULL CHECK (recipe_for>0),
@@ -45,25 +45,23 @@ create table recipes(
 	recipe_difficulty INT NOT NULL CHECK (recipe_difficulty > 0 AND recipe_difficulty <= 5),
 	recipe_cost INT NOT NULL CHECK (recipe_cost > 0 AND recipe_difficulty <= 5), 
 	creation_date DATE NOT NULL
-	PRIMARY KEY (recipe_id, recipe_author)
 );
 
 create table ingredients(
 	ingredient_id TEXT PRIMARY KEY,
 	ingredient_name TEXT NOT NULL,
-	ingredient_unit INT REFERENCES units(unit_id) ON DELETE SET NULL,
 	is_allergen BOOLEAN NOT NULL,
 	ingredient_season INT REFERENCES seasons(season_id) ON DELETE SET NULL
 );
 
-create table reviews(
-	author TEXT REFERENCES users(unit_id)
-	associated_recipe TEXT REFERENCES recipes(recipe_id) ON DELETE CASCADE,
-	title TEXT NOT NULL,
-	grade FLOAT NOT NULL,
-	content TEXT,
-	PRIMARY KEY (author, associated_recipe)
-);
+-- create table reviews(
+-- 	author TEXT REFERENCES users(user_id),
+-- 	associated_recipe TEXT REFERENCES recipes(recipe_id) ON DELETE CASCADE,
+-- 	title TEXT NOT NULL,
+-- 	grade FLOAT NOT NULL,
+-- 	content TEXT,
+-- 	PRIMARY KEY (author, associated_recipe)
+-- );
 
 create table contains(
 	in_recipe TEXT REFERENCES recipes(recipe_id) ON DELETE CASCADE,
@@ -104,18 +102,19 @@ insert into units values
 	(9, 'handful of');
 
 insert into ingredients values
-	('r', 'Rice', 1, FALSE, NULL),
-	('m', 'Melon', 1, FALSE, 3),
-	('g', 'Grapes', 1, FALSE, 4);
+	('r', 'Rice', FALSE, NULL),
+	('m', 'Melon', FALSE, 3),
+	('g', 'Grapes', FALSE, 4);
 
 insert into users(user_id, email, username, admin, passwd, registration) values
-	('aaaa', 'LN@LN.LN', 'lulu', FALSE, 'azertyuiop', NOW());
+	('abcd', 'a', 'a', TRUE, 'azerty', NOW()),
+	('aaaa', 'b', 'b', FALSE, 'azertyuiop', NOW());
 
 insert into recipes values
-	('a', 'Boiled rice', 'aaaa', 4, 30, 'Boil some water, then throw the rice in', NULL, 2, 3, 1, 1, NOW()),
-	('aa', 'Boiled rice bis', 'aaaa', 2, 30, 'Boil some water, then throw the rice in', NULL, 2, 3, 1, 1, NOW()),
-	('aaa', 'Boiled rice whith melon', 'aaaa', 20, 10, 'Boil some water, then throw the rice & melon in', 3, 2, 3, 1, 1, NOW()),
-	('aaaa', 'Boiled rice with grapes', 'aaaa', 15, 5, 'Boil some water, then throw the rice & grapes in', 4, 2, 3, 1, 1, NOW());
+	('a', 'abcd', 'Boiled rice', 4, 30, 'Boil some water, then throw the rice in', NULL, 2, 3, 1, 1, NOW()),
+	('aa', 'aaaa', 'Boiled rice bis', 2, 30, 'Boil some water, then throw the rice in', NULL, 2, 3, 1, 1, NOW()),
+	('aaa', 'abcd', 'Boiled rice whith melon', 20, 10, 'Boil some water, then throw the rice & melon in', 3, 2, 3, 1, 1, NOW()),
+	('aaaa', '9eade1ec-2a04-459e-8297-68a293c38554', 'Boiled rice with grapes', 15, 5, 'Boil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\n', 4, 2, 3, 1, 1, NOW());
 
 insert into contains values 
 	('a', 'r', 1, 2),

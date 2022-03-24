@@ -16,9 +16,8 @@ router
     .post("/", userMiddleware.validateRegister, (req, res, next) => {
         const token = req.headers.authorization.split(" ")[1];
         let admin = false;
-        console.log("token :", token)
 
-        if (token!= null) {
+        if (token != null) {
             jwt.verify(
                 token,
                 "4jRU=HyTeSf*$4JxN9&BupHJxaBNFX-A&F!NvR=JJ&L$LrPYYJqG8%HRNLKY!MKmcnXxGr!88nzXPgA8snQb6ad93NdrjjgK^F7K",
@@ -27,7 +26,9 @@ router
                         return res
                             .status(403)
                             .send({ msg: "Unvalid credentials !" });
-                    admin = authorizedData.admin
+                    if (authorizedData.admin) {
+                        admin = req.body.isAdmin;
+                    }
                 }
             );
         }
@@ -46,10 +47,11 @@ router
                     hash
                 );
                 pool.query(sql, (err) => {
+                    const msg = admin ? "Your admin account has been registered !" : "Your normal account has been registered !"
                     if (err) return res.status(500).send(error500(err));
                     else
                         return res.status(200).send({
-                            msg: "Your account has been registered !",
+                            msg: msg,
                         });
                 });
             }

@@ -1,5 +1,12 @@
 <script setup>
 import Weeks from "../components/Weeks.vue";
+defineProps({
+    recipes: {
+        type: Array,
+        required: false,
+        default: []
+    }
+})
 </script>
 
 <template>
@@ -18,13 +25,13 @@ import Weeks from "../components/Weeks.vue";
                 <option value="4">4</option>
             </select>
         </div>
-        <Weeks :nbWeeks="this.nbWeeks"></Weeks>
+        <Weeks :nbWeeks="parseInt(this.nbWeeks,10)"></Weeks>
     </div>
 </template>
 
 <script>
 export default {
-    mounted() {
+    created() {
         if (!this.$store.getters.isLoggedIn) {
             this.$router.push("/signup");
             M.toast({

@@ -13,8 +13,11 @@ defineProps({
 <template>
     <main>
         <div class="row">
-            <Searchbar @searchRecipes="searchRecipes" :personalPage="false"></Searchbar>
-            <List :userid="this.id" :recipes="this.recipes"></List>
+            <Searchbar
+                @searchRecipes="searchRecipes"
+                :personalPage="false"
+            ></Searchbar>
+            <List :recipes="this.recipes" :personalPage="true" @recipeChosen="recipeChosen"></List>
         </div>
     </main>
 </template>
@@ -22,9 +25,9 @@ defineProps({
 <script>
 M.AutoInit();
 export default {
-    mounted() {
+    created() {
         if (!this.$store.getters.isLoggedIn) {
-            this.$router.push("/signup");
+            this.$router.push("/signin");
             M.toast({
                 html: "You need to be logged in to access this page !",
                 classes: "rounded",
@@ -46,7 +49,10 @@ export default {
             this.$emit("searchRecipes", search, this.id);
         },
         fetchRecipes: function (id = "") {
-            this.$emit("listReady", this.id)
+            this.$emit("listReady", this.id);
+        },
+        recipeChosen(id) {
+            this.$emit("recipeChosen", id);
         },
     },
 };

@@ -1,16 +1,16 @@
 <script setup>
 import Tile from "./Tile.vue";
 defineProps({
-    userid: {
-        type: String,
-        required: false,
-        default: "",
-    },
     recipes: {
         type: Array,
         required: false,
         default: [],
     },
+    personalPage: {
+        type: Boolean,
+        required: false,
+        default: false,
+    }
 });
 </script>
 
@@ -29,12 +29,18 @@ defineProps({
                 <a href="#!"><i class="material-icons">chevron_right</i></a>
             </li>
         </ul>
-        <Tile :recipes="this.recipes"></Tile>
+        <Tile :recipes="this.recipes" :personalPage="personalPage" @recipeChosen="this.recipeChosen"></Tile>
     </div>
 </template>
 
 <script>
-export default {};
+export default {
+    methods: {
+        recipeChosen(id) {
+            this.$emit("recipeChosen", id);
+        },
+    }
+}
 </script>
 
 <style scoped>

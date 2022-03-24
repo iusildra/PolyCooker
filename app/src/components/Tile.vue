@@ -4,6 +4,10 @@ defineProps({
         type: Array,
         required: true,
     },
+    personalPage: {
+        type: Boolean,
+        required: true,
+    },
 });
 </script>
 <template>
@@ -13,14 +17,19 @@ defineProps({
         :key="recipe['recipe_id']"
     >
         <div class="card hoverable">
-            <div class="card-image">
+            <div class="card-image" @click="chooseRecipe(recipe['recipe_id'])">
                 <img
                     src="../assets/img/food.png"
                     :alt="recipe.name + '\'s picture'"
                 />
             </div>
-            <div class="card-content">
-                <span class="card-title center">{{ recipe["recipe_name"] }}</span>
+            <div
+                class="card-content"
+                @click="chooseRecipe(recipe['recipe_id'])"
+            >
+                <span class="card-title center">{{
+                    recipe["recipe_name"]
+                }}</span>
                 <p class="center">{{ recipe["username"] }}</p>
                 <p class="center">
                     Difficulty : {{ recipe["recipe_difficulty"] }} / 5
@@ -30,13 +39,22 @@ defineProps({
                     {{ recipe["recipe_cost"] }} / 5
                 </p>
                 <p class="center">Season : {{ recipe["season_name"] }}</p>
-                <p class="center">Type : {{recipe["type_name"]}}</p>
-                <p class="center">Diet : {{recipe["diet_name"]}}</p>
-                <div class="card-action">
-                    <a>
-                        <p class="center">Add to my calendar</p>
-                    </a>
-                </div>
+                <p class="center">Type : {{ recipe["type_name"] }}</p>
+                <p class="center">Diet : {{ recipe["diet_name"] }}</p>
+            </div>
+            <div class="card-action">
+                <button
+                    class="waves-effect waves-light btn red"
+                    v-if="personalPage"
+                >
+                    Remove
+                </button>
+                <button
+                    class="waves-effect waves-light btn add"
+                    @click="addCalendar"
+                >
+                    Choose
+                </button>
             </div>
         </div>
     </div>
@@ -44,12 +62,10 @@ defineProps({
 
 <script>
 export default {
-    data() {
-        return {};
-    },
     methods: {
         chooseRecipe(id) {
-            //Open recipe in new page
+            this.$router.push("/recipe/" + id);
+            this.$emit("recipeChosen", id)
         },
     },
 };
@@ -67,6 +83,12 @@ img {
     align-content: space-around;
 }
 
+.card .card-action {
+    display: flex;
+    padding: 16px 0px;
+    justify-content: space-evenly;
+}
+
 .card .card-title {
     font-size: large;
     text-decoration: underline;
@@ -74,5 +96,8 @@ img {
 
 .modal-trigger {
     color: black;
+}
+.add {
+    background-color: #019dde;
 }
 </style>

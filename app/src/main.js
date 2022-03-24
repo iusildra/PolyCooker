@@ -1,12 +1,13 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import { createRouter, createWebHashHistory } from "vue-router";
+import CreateRecipe from "./views/CreateRecipe.vue"
+import ViewRecipe from "./views/ViewRecipe.vue"
 import Calendar from "./views/Calendar.vue";
 import Homepage from "./views/Homepage.vue";
 import Account from "./views/Account.vue";
 import Signin from "./views/Signin.vue";
 import Signup from "./views/Signup.vue";
-import CreateRecipe from "./views/CreateRecipe.vue"
 import Axios from "axios";
 import store from "./store";
 
@@ -19,6 +20,8 @@ const routes = [
     { path: "/calendar", component: Calendar },
     { path: "/createuser", component: Signup },
     { path: "/createrecipe", component: CreateRecipe },
+    { path: "/recipe/:uuid", component: ViewRecipe },
+    // { path: "/:*", component: Homepage }
 ];
 
 const router = createRouter({
@@ -32,7 +35,3 @@ createApp(App)
 
 M.AutoInit();
 
-document.addEventListener("DOMContentLoaded", function () {
-    var elems = document.querySelectorAll(".sidenav");
-    var instances = M.Sidenav.init(elems, {});
-});

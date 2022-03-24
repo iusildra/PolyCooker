@@ -149,7 +149,6 @@ export default {
             chips.forEach((elt) => {
                 ingredients.push(elt.innerHTML.split("<")[0]); //Split to exclude the icon inside the chip
             });
-            console.log(ingredients);
             return ingredients;
         },
         onSubmit() {
@@ -166,7 +165,6 @@ export default {
                 search["typeID"] = parseInt(this.type, 10);
             if (parseInt(this.diet, 10) > 0)
                 search["dietID"] = parseInt(this.diet, 10);
-            console.log(search);
             this.$emit("searchRecipes", search);
         },
         async fetchOptions(callback) {
