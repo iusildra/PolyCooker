@@ -1,4 +1,5 @@
 <script setup>
+import axios from "axios";
 defineProps({
     recipes: {
         type: Array,
@@ -44,12 +45,15 @@ defineProps({
             </div>
             <div class="card-action">
                 <button
+                    type="button"
                     class="waves-effect waves-light btn red"
+                    @click="deleteRecipe(recipe)"
                     v-if="personalPage"
                 >
                     Remove
                 </button>
                 <button
+                    type="button"
                     class="waves-effect waves-light btn add"
                     @click="addCalendar"
                 >
@@ -65,7 +69,24 @@ export default {
     methods: {
         chooseRecipe(id) {
             this.$router.push("/recipe/" + id);
-            this.$emit("recipeChosen", id)
+            this.$emit("recipeChosen", id);
+        },
+        deleteRecipe(recipe) {
+            axios
+                .delete("http://localhost:3080/api/recipes/id/" + recipe.recipe_id)
+                .then((response) => {
+                    M.toast({
+                        html: response.data.msg,
+                        classes: "rounded",
+                    });
+                    this.$emit("removeRecipe", recipe);
+                })
+                .catch((err) => {
+                    M.toast({
+                        html: err.response.data.msg,
+                        class: "rounded",
+                    });
+                });
         },
     },
 };

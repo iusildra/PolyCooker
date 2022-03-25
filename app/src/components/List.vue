@@ -29,7 +29,7 @@ defineProps({
                 <a href="#!"><i class="material-icons">chevron_right</i></a>
             </li>
         </ul>
-        <Tile :recipes="this.recipes" :personalPage="personalPage" @recipeChosen="this.recipeChosen"></Tile>
+        <Tile :recipes="this.recipes" :personalPage="personalPage" @recipeChosen="this.recipeChosen" @removeRecipe="removeRecipe"></Tile>
     </div>
 </template>
 
@@ -39,6 +39,9 @@ export default {
         recipeChosen(id) {
             this.$emit("recipeChosen", id);
         },
+        removeRecipe(recipe) {
+            this.$emit('removeRecipe', recipe)
+        }
     }
 }
 </script>

@@ -1,7 +1,8 @@
+const validate = require("../services/tokenVerification");
 const router = require("express").Router();
-const uuid = require("uuid");
 const format = require("pg-format");
 const pool = require("../db");
+const uuid = require("uuid");
 const defaultLimit = 25;
 const defaultoffset = 0;
 
@@ -39,7 +40,6 @@ function makeRecipeRequest(
 ) {
     let getSomeRecipes = someRecipes;
     const search = JSON.parse(params.search);
-    console.log(search);
     if (Object.keys(search).length > 0) {
         getSomeRecipes += "\nWHERE";
         if (search.author != null)
@@ -86,34 +86,29 @@ function makeRecipeRequest(
         (params.limit != null) & (parseInt(params.limit) != null)
             ? parseInt(params.limit)
             : defaultLimit;
-    
+
     getSomeRecipes += format(`\nOFFSET %L LIMIT %L`, offset, limit);
 
-    console.log(getSomeRecipes);
     return getSomeRecipes;
 }
-
 
 const insertRecipe = `INSERT INTO recipes VALUES
         (%L, %L, %L, %L, %L, %L, %L, %L, %L, %L, %L, NOW())`;
 router
     .route("/")
     .get((req, res) => {
-        
         let sql = "";
         if (Object.keys(req.query).length > 0)
             sql = makeRecipeRequest(req.query);
         else sql = makeRecipeRequest();
 
         pool.query(sql, (err, results) => {
-            console.log(err)
             if (err) res.status(500).send(err);
             else res.status(200).json(results.rows);
         });
     })
     .post((req, res) => {
-        console.log(req.body)
-        const recipe_uuid = uuid.v4()
+        const recipe_uuid = uuid.v4();
         const sql = format(
             insertRecipe,
             recipe_uuid,
@@ -126,34 +121,38 @@ router
             req.body.type.length > 0 ? req.body.type : null,
             req.body.diet.length > 0 ? req.body.diet : null,
             req.body.difficulty,
-            req.body.cost,
+            req.body.cost
         );
         pool.query(sql, (err) => {
             if (err) {
-                console.log("ntm")
                 return res.status(500).send(err);
             }
-            let insertIngredients = `INSERT INTO contains VALUES `
-            req.body.ingredients.forEach(elt => {
-                console.log(elt.name)
-                insertIngredients += format(`('${recipe_uuid}', %L, %L, %L),`, elt.name, elt.quantity, elt.unit)
-            })
-            insertIngredients = insertIngredients.slice(0, -1)
-            console.log("ici", insertIngredients)
+            let insertIngredients = `INSERT INTO contains VALUES `;
+            req.body.ingredients.forEach((elt) => {
+                insertIngredients += format(
+                    `('${recipe_uuid}', %L, %L, %L),`,
+                    elt.name,
+                    elt.quantity,
+                    elt.unit
+                );
+            });
+            insertIngredients = insertIngredients.slice(0, -1);
             pool.query(insertIngredients, (err1) => {
-                if (err1) return res.status(500).send(err1)
-                else return res.status(200).json({msg: "Recipe successfully created !"})
-            })
+                if (err1) return res.status(500).send(err1);
+                else
+                    return res
+                        .status(200)
+                        .json({ msg: "Recipe successfully created !" });
+            });
         });
     });
 
 router
-    .route("/:id")
+    .route("/id/:id")
     .all((req, res, next) => {
         next();
     })
     .get((req, res) => {
-        console.log(req.params);
         let sql = format(
             getRecipeById,
             req.params["id"],
@@ -173,15 +172,37 @@ router
         });
     })
     .delete((req, res) => {
-        const sql = format(
-            `DELETE FROM recipes
-			WHERE recipe_id=%L`,
-            req.params["id"]
-        );
-        pool.query(sql, (err) => {
-            if (err) res.status(500).send(err);
-            else res.status(200);
+        const token = req.headers.authorization.split(" ")[1];
+
+        if (token == null || token.length == 0) {
+            res.send(403);
+        }
+
+        validate.validateToken(token, (err, data) => {
+            if (err) return res.status(403).send(err)
+            const sql = format(
+                `SELECT recipe_author FROM recipes WHERE recipe_id=%L`,
+                req.params.id
+            );
+            pool.query(sql, (err0, results) => {
+                if (err0) return res.status(500).send(err0)
+                if (results.rowCount == 0) return res.status(404);
+                if (results.rows[0]["recipe_author"] != data.userid)
+                    return res.status(403);
+
+                const sql_delete = format(
+                    `DELETE FROM recipes
+                    WHERE recipe_id=%L`,
+                    req.params["id"]
+                );
+                pool.query(sql_delete, (err1) => {
+                    if (err1) res.status(500).send(err1);
+                    else res.status(200).json({msg: "Recipe successfully deleted !"});
+                });
+            });
         });
+
+        res.status(200);
     });
 
 module.exports = router;

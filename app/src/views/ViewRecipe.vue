@@ -52,7 +52,7 @@ export default {
     methods: {
         fetchRecipe(id) {
             axios
-                .get("http://localhost:3080/api/recipes/" + id)
+                .get("http://localhost:3080/api/recipes/id/" + id)
                 .then((response) => {
                     const data = response.data;
                     this.info = {

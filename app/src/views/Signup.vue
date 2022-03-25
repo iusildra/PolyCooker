@@ -52,7 +52,11 @@ export default {
             try {
                 const credentials = {};
                 document.querySelectorAll("#signup input").forEach((elt) => {
-                    credentials[elt.id] = elt.value;
+                    if (elt.type == "checkbox") {
+                        credentials[elt.id] = elt.checked
+                    } else {
+                        credentials[elt.id] = elt.value;
+                    }
                 });
                 const response = await AuthService.signup(credentials);
                 M.toast({ html: response.msg, classes: "rounded" });

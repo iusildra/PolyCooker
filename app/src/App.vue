@@ -11,6 +11,7 @@ import Header from "./components/Header.vue";
         @searchRecipes="searchRecipes"
         @listReady="fetchRecipes"
         @recipeChosen="recipeChosen"
+        @removeRecipe="removeRecipe"
     ></router-view>
     <Footer></Footer>
     <div id="addRecipe">
@@ -72,6 +73,9 @@ export default {
         recipeChosen(id) {
             this.chosenRecipe = id;
         },
+        removeRecipe(recipe) {
+            this.recipes.splice(this.recipes.indexOf(recipe), 1)
+        }
     },
 };
 </script>
