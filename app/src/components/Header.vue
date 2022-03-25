@@ -5,7 +5,7 @@
         <div class="navbar-fixed">
             <nav>
                 <div class="nav-wrapper">
-                    <a @click="home" class="left brand-logo">Polycooker</a>
+                    <router-link to="/" class="left brand-logo">Polycooker</router-link>
                     <ul class="right">
                         <li>
                             <a
@@ -82,9 +82,6 @@ export default {
             this.$store.dispatch("logout");
             this.$router.push("/");
             M.toast({ html: "Goodbye !", classes: "rounded" });
-        },
-        home() {
-            this.$router.push("/");
         },
     },
 };

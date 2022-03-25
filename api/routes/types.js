@@ -13,7 +13,7 @@ router
     .route("/:id")
     .get((req, res) => {
         const sql = format(
-            `SELECT * FROM types WHERE type_id=%L`,
+            `SELECT * FROM types WHERE type_name=%L`,
             req.params["id"]
         );
         pool.query(sql, (err, results) => {

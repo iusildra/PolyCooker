@@ -5,7 +5,8 @@ import Info from "../components/ViewInfo.vue";
 defineProps({
     recipe_id: {
         type: String,
-        required: true,
+        required: false,
+        default: "",
     },
 });
 </script>
@@ -16,7 +17,10 @@ defineProps({
             <Info :info="this.info"></Info>
         </div>
         <div class="row">
-            <Ingredients class="ingredients" :ingredients="this.ingredients"></Ingredients>
+            <Ingredients
+                class="ingredients"
+                :ingredients="this.ingredients"
+            ></Ingredients>
             <Steps :steps="this.steps"></Steps>
         </div>
     </div>
@@ -26,11 +30,15 @@ defineProps({
 import axios from "axios";
 export default {
     created() {
-        this.fetchRecipe(this.recipe_id);
+        if (this.recipe_id.length == 0) {
+            this.fetchRecipe(this.$route.params["uuid"]);
+        } else {
+            this.fetchRecipe(this.recipe_id);
+        }
         this.$watch(
             () => this.$route.params,
             (toParams, previousParams) => {
-                this.fetchRecipe(toParams["uuid"])
+                this.fetchRecipe(toParams["uuid"]);
             }
         );
     },
@@ -38,7 +46,7 @@ export default {
         return {
             ingredients: [],
             info: {},
-            steps: "",
+            steps: [],
         };
     },
     methods: {
@@ -60,7 +68,6 @@ export default {
                     };
                     this.ingredients = data.ingredients;
                     this.steps = data.recipe_steps.split("\\n\\n");
-                    console.log(this.steps);
                 });
         },
     },
@@ -70,7 +77,7 @@ export default {
 <style scoped>
 .ingredients {
     position: sticky;
-    top: 100px
+    top: 100px;
 }
 
 @media only screen and (max-width: 600px) {

@@ -56,7 +56,7 @@ exports.isLoggedIn = (req, res, next) => {
         next();
     } catch (err) {
         return res.status(401).send({
-            msg: "You must be logged in to acces this pages !",
+            msg: "You must be logged in to access this pages !",
         });
     }
 };

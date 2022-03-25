@@ -45,9 +45,9 @@ router
 				recipe_difficulty, recipe_cost, creation_date
 			FROM users
 			INNER JOIN recipes ON recipe_author=user_id
-            LEFT JOIN seasons ON season_id=recipe_season
-            LEFT JOIN types ON type_id=recipe_type
-            LEFT JOIN diets ON diet_id=recipe_diet
+            LEFT JOIN seasons ON season_name=recipe_season
+            LEFT JOIN types ON type_name=recipe_type
+            LEFT JOIN diets ON diet_name=recipe_diet
 			WHERE ${cond}
 			ORDER BY recipe_name
 			OFFSET %L LIMIT %L`,

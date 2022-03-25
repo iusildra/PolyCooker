@@ -100,4 +100,8 @@ img {
 .add {
     background-color: #019dde;
 }
+
+.col {
+    margin: 5px auto;
+}
 </style>

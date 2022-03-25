@@ -5,7 +5,7 @@ defineProps({});
 <template>
     <div class="container">
         <form id="signup" @submit.prevent="signup">
-            <h3>Sign up</h3>
+            <h3>{{this.$store.getters.getUser.admin ? "Create user" : "Sign up"}}</h3>
             <div v-if="getters.getUser.admin">
                 <label>
                     <input type="checkbox" id="isAdmin" />

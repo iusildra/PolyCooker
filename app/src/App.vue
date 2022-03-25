@@ -70,8 +70,8 @@ export default {
                     });
         },
         recipeChosen(id) {
-            this.chosenRecipe = id
-        }
+            this.chosenRecipe = id;
+        },
     },
 };
 </script>

@@ -41,11 +41,11 @@ defineProps({
             </div>
             <div class="input-field">
                 <select id="season_select" v-model="this.season">
-                    <option value="0" selected>All</option>
+                    <option value="" selected>All</option>
                     <option
                         v-for="season of this.seasons"
-                        :value="season['season_id']"
-                        :key="season['season_id']"
+                        :value="season['season_name']"
+                        :key="season['season_name']"
                     >
                         {{ season["season_name"] }}
                     </option>
@@ -54,11 +54,11 @@ defineProps({
             </div>
             <div class="input-field">
                 <select id="type_select" v-model="this.type">
-                    <option value="0" selected>All</option>
+                    <option value="" selected>All</option>
                     <option
                         v-for="type of this.types"
-                        :value="type['type_id']"
-                        :key="type['type_id']"
+                        :value="type['type_name']"
+                        :key="type['type_name']"
                     >
                         {{ type["type_name"] }}
                     </option>
@@ -67,11 +67,11 @@ defineProps({
             </div>
             <div class="input-field">
                 <select id="diet_select" v-model="this.diet">
-                    <option value="0" selected>All</option>
+                    <option value="" selected>All</option>
                     <option
                         v-for="diet of this.diets"
-                        :value="diet['diet_id']"
-                        :key="diet['diet_id']"
+                        :value="diet['diet_name']"
+                        :key="diet['diet_name']"
                     >
                         {{ diet["diet_name"] }}
                     </option>
@@ -85,7 +85,7 @@ defineProps({
                 </button>
             </div>
         </form>
-        <div class="divider"></div>
+        <!-- <div class="divider"></div>
         <div>
             <h6>Author(s)</h6>
             <div class="col s12" id="recipe_list">
@@ -99,7 +99,7 @@ defineProps({
                 </ul>
                 <div id="authorsList"></div>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -121,9 +121,9 @@ export default {
             diets: [],
             authorSearch: "",
             recipeSearch: "",
-            season: 0,
-            type: 0,
-            diet: 0,
+            season: "",
+            type: "",
+            diet: "",
         };
     },
     methods: {
@@ -159,12 +159,12 @@ export default {
             if (this.recipeSearch.length > 0)
                 search["recipe"] = this.recipeSearch;
             if (ingredients.length > 0) search["ingredients"] = ingredients;
-            if (parseInt(this.season, 10) > 0)
-                search["seasonID"] = parseInt(this.season, 10);
-            if (parseInt(this.type, 10) > 0)
-                search["typeID"] = parseInt(this.type, 10);
-            if (parseInt(this.diet, 10) > 0)
-                search["dietID"] = parseInt(this.diet, 10);
+            if (this.season.length > 0)
+                search["seasonID"] = this.season;
+            if (this.type.length > 0)
+                search["typeID"] = this.type;
+            if (this.diet.length > 0)
+                search["dietID"] = this.diet;
             this.$emit("searchRecipes", search);
         },
         async fetchOptions(callback) {
@@ -199,7 +199,7 @@ form {
 
 .submit {
     text-align: center;
-    margin: 20px 0px 15px;
+    margin: 0px 0px 15px;
 }
 
 .input-field {

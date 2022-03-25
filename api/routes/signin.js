@@ -65,9 +65,6 @@ router
     .put((req, res) => {
         return res.status(405).send({ msg: "Action not authorized !" });
     })
-    .delete((req, res) => {
-        return res.status(405).send({ msg: "Action not authorized !" });
-    })
     .patch((req, res) => {
         return res.status(405).send({ msg: "Action not authorized !" });
     });

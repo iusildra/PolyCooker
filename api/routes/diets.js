@@ -16,7 +16,7 @@ router
     })
     .get((req, res) => {
         const sql = format(
-            `SELECT * FROM diets WHERE diet_id=%L`,
+            `SELECT * FROM diets WHERE diet_name=%L`,
             req.params["id"]
         );
         pool.query(sql, (err, results) => {
