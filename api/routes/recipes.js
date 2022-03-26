@@ -27,7 +27,7 @@ const someRecipes = format(
 recipe_id, recipe_name, username,
 recipe_for, season_name, type_name,
 diet_name, recipe_difficulty, recipe_cost,
-creation_date
+creation_date, recipe_author
 FROM recipes
 INNER JOIN users ON user_id=recipe_author
 LEFT JOIN seasons ON recipe_season=season_name
@@ -132,7 +132,7 @@ router
         validate.validateToken(
             req.headers.authorization.split(" ")[1],
             (err, data) => {
-                if (err) return res.status(403);
+                if (err) return res.status(403).send({msg: "You are not logged in !"});
                 let recipe_uuid = uuid.v4();
                 let post_recipe = format(
                     insertRecipe,
@@ -213,16 +213,16 @@ router
     .delete((req, res) => {
         const token = req.headers.authorization.split(" ")[1];
         validate.validateToken(token, (err, data) => {
-            if (err) return res.status(403).send(err);
+            if (err) return res.status(403).send({msg: "You're not loggin in !"});
             const sql = format(
                 `SELECT recipe_author FROM recipes WHERE recipe_id=%L`,
                 req.params.id
             );
             pool.query(sql, (err0, results) => {
                 if (err0) return res.status(500).send(err0);
-                if (results.rowCount == 0) return res.status(404);
+                if (results.rowCount == 0) return res.status(404).send({msg: "Unknown recipe"});
                 if (results.rows[0]["recipe_author"] != data.userid)
-                    return res.status(403);
+                    return res.status(403).send({msg: "You're not authorized !"});
 
                 const sql_delete = format(
                     `DELETE FROM recipes

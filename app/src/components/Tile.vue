@@ -99,6 +99,9 @@ export default {
                         html: err.response.data.msg,
                         class: "rounded",
                     });
+                    if (err.response.status == 403) {
+                        this.$router.push("/signin")
+                    }
                 });
         },
     },

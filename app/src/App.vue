@@ -4,7 +4,7 @@ import Header from "./components/Header.vue";
 </script>
 
 <template>
-    <Header></Header>
+    <Header @userDeleted="updateList"></Header>
     <router-view
         :recipes="this.recipes"
         :recipe_id="this.chosenRecipe"
@@ -53,6 +53,9 @@ export default {
                 })
                 .then((response) => (this.recipes = response.data))
                 .catch((err) => console.log(err));
+        },
+        updateList(id) {
+            this.recipes = this.recipes.filter(elt => elt.recipe_author!=id)
         },
         recipeChosen(id) {
             this.chosenRecipe = id;

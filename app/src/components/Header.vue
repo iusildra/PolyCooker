@@ -43,12 +43,20 @@
                     <router-link to="/createuser">Create user</router-link>
                 </li>
                 <li v-if="getters.isLoggedIn">
-                    <router-link to="/editinfo">Edit my infos</router-link>
+                    <router-link to="/editinfo">Edit my info</router-link>
                 </li>
                 <li class="divider" v-if="getters.isLoggedIn"></li>
                 <li v-if="getters.isLoggedIn">
                     <router-link to="/" @click="logout"
                         >Deconnexion</router-link
+                    >
+                </li>
+                <li v-if="getters.isLoggedIn">
+                    <router-link
+                        to="/"
+                        class="materialize-red-text"
+                        @click="deleteAccount"
+                        >Delete account</router-link
                     >
                 </li>
             </ul>
@@ -58,6 +66,7 @@
 
 <script>
 M.AutoInit();
+import axios from "axios";
 export default {
     data() {
         return { getters: this.$store.getters };
@@ -87,6 +96,26 @@ export default {
             this.$store.dispatch("logout");
             this.$router.push("/");
             M.toast({ html: "Goodbye !", classes: "rounded" });
+        },
+        deleteAccount: async function () {
+            let confirm = prompt(
+                "Please enter your full username (case sensitive) to confirm your account deletion"
+            );
+            if (confirm != this.$store.getters.getUser.username) return;
+            const id = this.$store.getters.getUser.user_id;
+            try {
+                const response = await axios.delete(
+                    "http://localhost:3080/api/users/" + id
+                );
+                this.logout();
+                this.$emit("userDeleted", id);
+                M.toast({
+                    html: response.data.msg,
+                    classes: "rounded",
+                });
+            } catch (err) {
+                M.toast({ html: err.response.data.msg, classes: "rounded" });
+            }
         },
     },
 };

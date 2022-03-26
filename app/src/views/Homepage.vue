@@ -41,7 +41,6 @@ export default {
                 this.limit = toParams.limit
                     ? parseInt(toParams.limit, 10)
                     : defaultLimit;
-                console.log(this.limit, this.offset);
                 this.$emit(
                     "searchRecipes",
                     this.search,

@@ -7,9 +7,6 @@ const uuid = require("uuid");
 
 const userMiddleware = require("../middleware/user");
 
-const error500 = (err) => {
-    return { msg: "DB Error, please try again", err };
-};
 const error405 = { msg: "Action not authorized !" };
 
 router
@@ -45,7 +42,7 @@ router
                     const msg = admin
                         ? "Your admin account has been registered !"
                         : "Your normal account has been registered !";
-                    if (err) return res.status(500).send(error500(err));
+                    if (err) return res.status(500).send(err);
                     else
                         return res.status(200).send({
                             msg: msg,

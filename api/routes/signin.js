@@ -21,7 +21,7 @@ router
                     .status(500)
                     .send({ msg: "DB Error, please try again" });
             if (results.rows.length != 1) {
-                return res.status(418).send({ msg: "Username is incorrect !" });
+                return res.status(418).send({ msg: "Username or password is incorrect !" });
             }
             bcryptjs.compare(
                 req.body.passwd,

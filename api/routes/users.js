@@ -111,17 +111,26 @@ router
     })
     .delete((req, res) => {
         validateToken(req.headers.authorization.split(" ")[1], (err, data) => {
-            if (err) return res.status(403);
+            if (err)
+                return res.status(403).send({ msg: "You're not authorized !" });
+            if (data.userid != req.params["id"]) {
+                if (!data.admin) {
+                    return res
+                        .status(403)
+                        .send({ msg: "You cannot delete a user !" });
+                }
+            }
             const sql = format(
-                `DELETE FROM users
-                WHERE user_id=%L`,
+                `DELETE FROM users WHERE user_id=%L`,
                 req.params["id"]
             );
-            // pool.query(sql, (err) => {
-            //     if (err)
-            //         res.status(500).send({ msg: "DB Error, please try again" });
-            //     else res.status(200);
-            // });
+            pool.query(sql, (err1) => {
+                if (err1) res.status(500).send(err1);
+                else
+                    res.status(200).send({
+                        msg: "Sorry for not satisfying you :(",
+                    });
+            });
         });
     });
 

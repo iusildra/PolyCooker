@@ -188,7 +188,7 @@
 <script>
 import axios from "axios";
 export default {
-    mounted() {
+    created() {
         this.fetchOptions(() => {
             M.AutoInit();
             M.Autocomplete.init(document.querySelectorAll("#ingr_name"), {
@@ -235,12 +235,18 @@ export default {
 
         onSubmit() {
             if (this.ingredients.length == 0) {
-                M.toast({html: "You must give at least one ingredient !", classes:"rounded"})
-                return
+                M.toast({
+                    html: "You must give at least one ingredient !",
+                    classes: "rounded",
+                });
+                return;
             }
             if (document.getElementById("recipe_steps").value.length == 0) {
-                M.toast({html: "You must give at least one step !", classes:"rounded"})
-                return
+                M.toast({
+                    html: "You must give at least one step !",
+                    classes: "rounded",
+                });
+                return;
             }
             const add = {
                 author: this.$store.getters.getUser.user_id,

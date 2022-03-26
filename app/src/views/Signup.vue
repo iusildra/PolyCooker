@@ -5,7 +5,13 @@ defineProps({});
 <template>
     <div class="container">
         <form id="signup" @submit.prevent="signup">
-            <h3>{{this.$store.getters.getUser.admin ? "Create user" : "Sign up"}}</h3>
+            <h3>
+                {{
+                    this.$store.getters.getUser.admin
+                        ? "Create user"
+                        : "Sign up"
+                }}
+            </h3>
             <div v-if="getters.getUser.admin">
                 <label>
                     <input type="checkbox" id="isAdmin" />
@@ -44,23 +50,25 @@ M.AutoInit();
 export default {
     data() {
         return {
-            getters: this.$store.getters
-        }
+            getters: this.$store.getters,
+        };
     },
     methods: {
-        signup: async () => {
+        signup: async function () {
             try {
                 const credentials = {};
                 document.querySelectorAll("#signup input").forEach((elt) => {
                     if (elt.type == "checkbox") {
-                        credentials[elt.id] = elt.checked
+                        credentials[elt.id] = elt.checked;
                     } else {
                         credentials[elt.id] = elt.value;
                     }
                 });
                 const response = await AuthService.signup(credentials);
                 M.toast({ html: response.msg, classes: "rounded" });
+                this.$router.push("/signin");
             } catch (error) {
+                console.log(error);
                 M.toast({ html: error.response.data.msg, classes: "rounded" });
             }
         },
