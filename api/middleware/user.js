@@ -1,7 +1,6 @@
 const pool = require("../db");
 const jwt = require("jsonwebtoken");
 const format = require("pg-format");
-const async = require("async");
 
 const sql_username = `SELECT username
 FROM users
