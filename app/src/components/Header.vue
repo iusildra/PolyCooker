@@ -5,7 +5,9 @@
         <div class="navbar-fixed">
             <nav>
                 <div class="nav-wrapper">
-                    <router-link to="/" class="left brand-logo">Polycooker</router-link>
+                    <router-link to="/" class="left brand-logo"
+                        >Polycooker</router-link
+                    >
                     <ul class="right">
                         <li>
                             <a

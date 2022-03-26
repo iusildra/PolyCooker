@@ -17,6 +17,8 @@ defineProps({
             :personalPage="true"
         ></Searchbar>
         <List
+            :offset="this.offset"
+            :limit="this.limit"
             :recipes="this.recipes"
             @recipeChosen="recipeChosen"
             @addCalendar="addCalendar"
@@ -25,19 +27,42 @@ defineProps({
 </template>
 
 <script>
+const defaultOffset = 0;
+const defaultLimit = 25;
 export default {
     mounted() {
-        this.fetchRecipes();
+        this.searchRecipes({});
+        this.$watch(
+            () => this.$route.query,
+            (toParams, previousParams) => {
+                this.offset = toParams.offset
+                    ? parseInt(toParams.offset, 10)
+                    : defaultOffset;
+                this.limit = toParams.limit
+                    ? parseInt(toParams.limit, 10)
+                    : defaultLimit;
+                console.log(this.limit, this.offset);
+                this.$emit(
+                    "searchRecipes",
+                    this.search,
+                    "",
+                    this.offset,
+                    this.limit
+                ); //Empty id
+            }
+        );
     },
     data() {
-        return {};
+        return {
+            search: {},
+            offset: defaultOffset,
+            limit: defaultLimit,
+        };
     },
     methods: {
         searchRecipes: function (search) {
-            this.$emit("searchRecipes", search, ""); //Empty id
-        },
-        fetchRecipes: function () {
-            this.$emit("listReady", ""); //Empty id
+            this.search = search;
+            this.$emit("searchRecipes", search, "", this.offset, this.limit); //Empty id
         },
         recipeChosen(id) {
             this.$emit("recipeChosen", id);

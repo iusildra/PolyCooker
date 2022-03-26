@@ -10,7 +10,6 @@ import Header from "./components/Header.vue";
         :recipe_id="this.chosenRecipe"
         :calendarRecipes="this.calendarRecipes"
         @searchRecipes="searchRecipes"
-        @listReady="fetchRecipes"
         @recipeChosen="recipeChosen"
         @removeRecipe="removeRecipe"
         @addCalendar="addCalendar"
@@ -40,10 +39,6 @@ export default {
     },
     methods: {
         searchRecipes: function (search, id, offset = 0, limit = 25) {
-            if (Object.keys(search).length == 0) {
-                this.fetchRecipes(id);
-                return;
-            }
             axios
                 .get("http://localhost:3080/api/recipes", {
                     params: {
@@ -59,29 +54,15 @@ export default {
                 .then((response) => (this.recipes = response.data))
                 .catch((err) => console.log(err));
         },
-        fetchRecipes: function (id = "") {
-            if (id.length == 0)
-                axios
-                    .get("http://localhost:3080/api/recipes/")
-                    .then((response) => {
-                        this.recipes = response.data;
-                    });
-            else
-                axios
-                    .get("http://localhost:3080/api/users/" + id)
-                    .then((response) => {
-                        this.recipes = response.data;
-                    });
-        },
         recipeChosen(id) {
             this.chosenRecipe = id;
         },
         removeRecipe(recipe) {
-            this.recipes.splice(this.recipes.indexOf(recipe), 1)
+            this.recipes.splice(this.recipes.indexOf(recipe), 1);
         },
         addCalendar(id, name) {
-            this.calendarRecipes.push({id, name})
-        }
+            this.calendarRecipes.push({ id, name });
+        },
     },
 };
 </script>

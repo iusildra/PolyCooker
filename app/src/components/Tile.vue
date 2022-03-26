@@ -18,31 +18,30 @@ defineProps({
         :key="recipe['recipe_id']"
     >
         <div class="card hoverable">
-            <div class="card-image" @click="chooseRecipe(recipe['recipe_id'])">
-                <img
-                    src="../assets/img/food.png"
-                    :alt="recipe.name + '\'s picture'"
-                />
-            </div>
-            <div
-                class="card-content"
-                @click="chooseRecipe(recipe['recipe_id'])"
-            >
-                <span class="card-title center">{{
-                    recipe["recipe_name"]
-                }}</span>
-                <p class="center">{{ recipe["username"] }}</p>
-                <p class="center">
-                    Difficulty : {{ recipe["recipe_difficulty"] }} / 5
-                </p>
-                <p class="center">
-                    Cost :
-                    {{ recipe["recipe_cost"] }} / 5
-                </p>
-                <p class="center">Season : {{ recipe["season_name"] }}</p>
-                <p class="center">Type : {{ recipe["type_name"] }}</p>
-                <p class="center">Diet : {{ recipe["diet_name"] }}</p>
-            </div>
+            <router-link :to="'/recipe/' + recipe.recipe_id" target="_blank">
+                <div class="card-image">
+                    <img
+                        src="../assets/img/food.png"
+                        :alt="recipe.name + '\'s picture'"
+                    />
+                </div>
+                <div class="card-content">
+                    <span class="card-title center">{{
+                        recipe["recipe_name"]
+                    }}</span>
+                    <p class="center">{{ recipe["username"] }}</p>
+                    <p class="center">
+                        Difficulty : {{ recipe["recipe_difficulty"] }} / 5
+                    </p>
+                    <p class="center">
+                        Cost :
+                        {{ recipe["recipe_cost"] }} / 5
+                    </p>
+                    <p class="center">Season : {{ recipe["season_name"] }}</p>
+                    <p class="center">Type : {{ recipe["type_name"] }}</p>
+                    <p class="center">Diet : {{ recipe["diet_name"] }}</p>
+                </div>
+            </router-link>
             <div class="card-action" v-if="this.getters.isLoggedIn">
                 <button
                     type="button"
@@ -68,14 +67,10 @@ defineProps({
 export default {
     data() {
         return {
-            getters: this.$store.getters
-        }
+            getters: this.$store.getters,
+        };
     },
     methods: {
-        chooseRecipe(id) {
-            this.$router.push("/recipe/" + id);
-            this.$emit("recipeChosen", id);
-        },
         addCalendar(id, name) {
             this.$emit("addCalendar", id, name);
             M.toast({
@@ -84,8 +79,10 @@ export default {
             });
         },
         deleteRecipe(recipe) {
-            let confirm = prompt("Please enter the name of the recipe to confirm its deletion")
-            if (confirm != recipe.recipe_name) return
+            let confirm = prompt(
+                "Please enter the name of the recipe to confirm its deletion"
+            );
+            if (confirm != recipe.recipe_name) return;
             axios
                 .delete(
                     "http://localhost:3080/api/recipes/id/" + recipe.recipe_id
@@ -140,5 +137,10 @@ img {
 
 .col {
     margin: 5px auto;
+}
+
+router-link, a {
+    text-decoration: none;
+    color: black;
 }
 </style>

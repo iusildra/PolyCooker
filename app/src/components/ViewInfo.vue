@@ -14,7 +14,7 @@ defineProps({
 
         </div>
         <div class="chip">{{ info.author }}</div>
-        <h4>{{ info.name }}</h4>
+        <h4>{{ info.name + ' ('+info.for+'p.)'}}</h4>
         <div class="flex">
             <span
                 >Duration:
@@ -22,6 +22,7 @@ defineProps({
                     this.diplayDuration(info.duration)
                 }}</span
             >
+            <span>Difficulty : {{ info.difficulty}} / 5</span>
             <span>Cost: {{ info.cost }} / 5</span>
         </div>
         <div class="flex">

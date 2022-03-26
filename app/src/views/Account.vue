@@ -20,6 +20,8 @@ defineProps({
             <List
                 :recipes="this.recipes"
                 :personalPage="true"
+                :offset="this.offset"
+                :limit="this.limit"
                 @recipeChosen="recipeChosen"
                 @removeRecipe="removeRecipe"
                 @addCalendar="addCalendar"
@@ -29,6 +31,8 @@ defineProps({
 </template>
 
 <script>
+const defaultOffset = 0;
+const defaultLimit = 25;
 M.AutoInit();
 export default {
     created() {
@@ -41,21 +45,46 @@ export default {
         } else {
             this.username = this.$store.getters.getUser.username;
             this.id = this.$store.getters.getUser.user_id;
-            this.fetchRecipes(this.id);
+            this.searchRecipes({}, this.id);
         }
+        this.$watch(
+            () => this.$route.query,
+            (toParams, previousParams) => {
+                this.offset = toParams.offset
+                    ? parseInt(toParams.offset, 10)
+                    : defaultOffset;
+                this.limit = toParams.limit
+                    ? parseInt(toParams.limit, 10)
+                    : defaultLimit;
+                this.$emit(
+                    "searchRecipes",
+                    this.search,
+                    this.id,
+                    this.offset,
+                    this.limit
+                );
+            }
+        );
     },
     data() {
         return {
+            offset: defaultOffset,
+            limit: defaultLimit,
             username: "",
+            search: {},
             id: "",
         };
     },
     methods: {
         searchRecipes: function (search) {
-            this.$emit("searchRecipes", search, this.id);
-        },
-        fetchRecipes: function (id = "") {
-            this.$emit("listReady", this.id);
+            this.search = search;
+            this.$emit(
+                "searchRecipes",
+                this.search,
+                this.id,
+                this.offset,
+                this.limit
+            );
         },
         recipeChosen(id) {
             this.$emit("recipeChosen", id);

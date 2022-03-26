@@ -11,22 +11,25 @@ defineProps({
         required: false,
         default: false,
     },
+    offset: {
+        type:Number,
+        required: true
+    },
+    limit: {
+        type:Number,
+        required: true
+    }
 });
 </script>
 
 <template>
     <div class="col s12 m9 l9 xl10" id="recipe_list">
         <ul class="pagination">
-            <li class="disabled">
-                <a href="#!"><i class="material-icons">chevron_left</i></a>
-            </li>
-            <li class="active"><a href="#!">1</a></li>
-            <li class="waves-effect"><a href="#!">2</a></li>
-            <li class="waves-effect"><a href="#!">3</a></li>
-            <li class="waves-effect"><a href="#!">4</a></li>
-            <li class="waves-effect"><a href="#!">5</a></li>
             <li class="waves-effect">
-                <a href="#!"><i class="material-icons">chevron_right</i></a>
+                <a :href="'#'+this.path+'?offset='+this.previousPage+'&limit=25'"><i class="material-icons">chevron_left</i></a>
+            </li>
+            <li class="waves-effect">
+                <a :href="'#'+this.path+'?offset='+this.nextPage+'&limit=25'"><i class="material-icons">chevron_right</i></a>
             </li>
         </ul>
         <Tile
@@ -52,6 +55,19 @@ export default {
             this.$emit("addCalendar", id, name);
         },
     },
+    computed: {
+        path() {
+            return this.$route.path
+        },
+        nextPage() {
+            console.log(this.$route)
+            return this.offset+this.limit
+        },
+        previousPage() {
+            const res = this.offset-this.limit
+            return res < 0 ? 0 : res
+        }
+    }
 };
 </script>
 

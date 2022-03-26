@@ -51,12 +51,12 @@ function makeRecipeRequest(
         getSomeRecipes += "\nWHERE";
         if (search.author != null)
             getSomeRecipes += format(
-                ` username LIKE '%%%s%%' AND`,
+                ` LOWER(username) LIKE LOWER('%%%s%%') AND`,
                 search.author
             );
         if (search.recipe != null) {
             getSomeRecipes += format(
-                ` recipe_name LIKE '%%%s%%' AND`,
+                ` LOWER(recipe_name) LIKE LOWER('%%%s%%') AND`,
                 search.recipe
             );
         }
@@ -80,17 +80,22 @@ function makeRecipeRequest(
             getSomeRecipes += format(` recipe_diet=%L AND`, search.dietID);
         if (params.id.length > 0)
             getSomeRecipes += format(` user_id=%L AND`, params.id);
+
         getSomeRecipes = getSomeRecipes.slice(
             0,
             getSomeRecipes.lastIndexOf(" ")
         );
+    } else {
+        if (params.id.length > 0) {
+            getSomeRecipes += format(`\nWHERE user_id=%L`, params.id);
+        }
     }
     const offset =
-        (params.offset != null) & (parseInt(params.offset) != null)
+        params.offset != null && parseInt(params.offset) != null
             ? parseInt(params.offset)
             : defaultoffset;
     const limit =
-        (params.limit != null) & (parseInt(params.limit) != null)
+        params.limit != null && parseInt(params.limit) != null
             ? parseInt(params.limit)
             : defaultLimit;
 
@@ -127,7 +132,7 @@ router
         validate.validateToken(
             req.headers.authorization.split(" ")[1],
             (err, data) => {
-                if (err) return res.status(403)
+                if (err) return res.status(403);
                 let recipe_uuid = uuid.v4();
                 let post_recipe = format(
                     insertRecipe,
@@ -190,19 +195,16 @@ router
         next();
     })
     .get((req, res) => {
-        let get_recipe = format(
-            getRecipeById,
-            req.params["id"],
-            defaultLimit,
-            defaultoffset
-        );
+        let get_recipe = format(getRecipeById, req.params["id"]);
         pool.query(get_recipe, (err, results) => {
             if (err) return res.status(500).send(err);
             else if (results.rows.length == 0) return res.status(400);
+
             get_recipe = format(getRecipeIngredients, req.params["id"]);
             pool.query(get_recipe, (err1, results1) => {
                 if (err1) return res.status(500);
                 else if (results1.rows.length == 0) return res.status(400);
+
                 results.rows[0]["ingredients"] = results1.rows;
                 return res.status(200).json(results.rows[0]);
             });
@@ -210,11 +212,6 @@ router
     })
     .delete((req, res) => {
         const token = req.headers.authorization.split(" ")[1];
-
-        if (token == null || token.length == 0) {
-            res.send(403);
-        }
-
         validate.validateToken(token, (err, data) => {
             if (err) return res.status(403).send(err);
             const sql = format(

@@ -21,11 +21,10 @@ router
     })
     .post((req, res) => {
         const sql = format(
-            `INSERT INTO ingredients VALUES(%L, %L, %L, %L)`,
+            `INSERT INTO ingredients VALUES(%L, %L, %L)`,
             req.query["name"],
             req.query["unit"],
             req.query["allergen"],
-            req.query["season"]
         );
         pool.query(sql, (err, results) => {
             if (err)
@@ -53,17 +52,8 @@ router
         });
     })
     .patch((req, res) => {})
-    .delete((req, res) => {
-        const sql = format(
-            `DELETE FROM ingredients
-			WHERE LOWER(ingredient_name)=LOWER(%L)`,
-            req.params["name"]
-        );
-        pool.query(sql, (err, results) => {
-            if (err)
-                res.status(500).send({ msg: "DB Error, please try again" });
-            else res.status(200);
-        });
-    });
+    .delete((req, res) =>
+        res.status(405).send({ msg: "Action not allowed !" })
+    );
 
 module.exports = router;
