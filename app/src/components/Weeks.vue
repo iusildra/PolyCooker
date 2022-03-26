@@ -10,25 +10,47 @@ defineProps({
 <template>
     <div v-for="i in parseInt(this.nbWeeks, 10)">
         <div class="divider"></div>
-        <div class="row weekNb col s12 m2">
+        <div class="row weekNb">
             <h4>Week n°{{ i }}</h4>
         </div>
-        <div class="row week">
+        <div class="row col week">
             <div
-                class="meals col hoverable s12 m8 l4 xl2"
+                class="meals col z-depth-1 s12 m6 xl4"
                 v-for="day of this.days"
                 :key="day"
             >
                 <h5>{{ day }}</h5>
-                <div class="food">
-                    <span>
-                        <h6>Noon</h6>
-                        <input type="text" placeholder="Recipe" />
-                    </span>
-                    <span>
-                        <h6>Evening</h6>
-                        <input type="text" placeholder="Recipe" />
-                    </span>
+                <h6>Noon</h6>
+                <div class="row meal valign-wrapper">
+                    <div
+                        class="dropzone col s12 m5"
+                        @drop="onDrop($event)"
+                        @dragover.prevent
+                        @dragenter.prevent
+                    >
+                        <span class="id" hidden></span>
+                        <span class="name"></span>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <label for=".nb_persons">For how many ?</label>
+                        <input type="number" class="nb_persons" min="0" />
+                    </div>
+                </div>
+                <h6>Evening</h6>
+                <div class="row meal valign-wrapper">
+                    <div
+                        class="dropzone col s12 m5"
+                        @drop="onDrop($event)"
+                        @dragover.prevent
+                        @dragenter.prevent
+                    >
+                        <span class="id" hidden></span>
+                        <span class="name"></span>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <label for=".nb_persons">For how many ?</label>
+                        <input type="number" class="nb_persons" min="0" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -50,42 +72,41 @@ export default {
             ],
         };
     },
+    methods: {
+        onDrop(evt) {
+            const itemID = evt.dataTransfer.getData("itemID");
+            const itemName = evt.dataTransfer.getData("itemName");
+            evt.target.querySelector(".id").innerText = itemID;
+            evt.target.querySelector(".name").innerText = itemName;
+        },
+    },
 };
 </script>
 
-<style>
-.food {
-    text-align: center;
-    justify-content: space-around;
+<style scoped>
+.input-field {
+    width: 200px;
 }
-
-.food > span {
-    padding: 10px;
-}
-
 .row {
     text-align: center;
 }
 
-.week {
-    display: flex;
-    overflow: auto;
+.food {
+    padding: 0px 10px;
+}
+.dropzone > span {
+    line-height: 16px;
 }
 
-select {
-    margin: auto;
+.dropzone {
+    margin: 5px auto;
+    padding: 0px 20px;
+    min-height: 40px;
+    height: fit-content;
+    min-width: 25%;
     width: fit-content;
-    text-align: center;
-}
-
-.meals {
-    max-width: 200px;
-    margin: 10px;
-    display: flex;
-    flex: 1 1 0;
-    flex-wrap: wrap;
-    flex-direction: column;
-    justify-content: space-around;
+    background-color: rgb(233, 233, 233);
+    border-radius: 20px;
 }
 
 .divider {

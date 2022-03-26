@@ -81,7 +81,7 @@
             <h5>Ingredients</h5>
             <div id="ingredients" class="row">
                 <div
-                    class="col s12 m5 l5 xl3 z-depth-1"
+                    class="ingredient col s12 m5 xl3 z-depth-1 valign-wrapper"
                     v-for="(ingredient, i) of this.ingredients"
                     :key="i"
                 >
@@ -234,6 +234,14 @@ export default {
         },
 
         onSubmit() {
+            if (this.ingredients.length == 0) {
+                M.toast({html: "You must give at least one ingredient !", classes:"rounded"})
+                return
+            }
+            if (document.getElementById("recipe_steps").value.length == 0) {
+                M.toast({html: "You must give at least one step !", classes:"rounded"})
+                return
+            }
             const add = {
                 author: this.$store.getters.getUser.user_id,
                 name: this.name,
@@ -317,6 +325,10 @@ div .divider {
     margin: 5px;
 }
 
+.ingredient.col.s2 {
+    margin: 0px;
+    padding: 0px;
+}
 .row {
     display: flex;
     justify-content: space-evenly;

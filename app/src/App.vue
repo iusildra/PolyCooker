@@ -8,10 +8,12 @@ import Header from "./components/Header.vue";
     <router-view
         :recipes="this.recipes"
         :recipe_id="this.chosenRecipe"
+        :calendarRecipes="this.calendarRecipes"
         @searchRecipes="searchRecipes"
         @listReady="fetchRecipes"
         @recipeChosen="recipeChosen"
         @removeRecipe="removeRecipe"
+        @addCalendar="addCalendar"
     ></router-view>
     <Footer></Footer>
     <div id="addRecipe">
@@ -31,6 +33,7 @@ export default {
     data() {
         return {
             recipes: [],
+            calendarRecipes: [],
             chosenRecipe: "",
             getters: this.$store.getters,
         };
@@ -75,6 +78,9 @@ export default {
         },
         removeRecipe(recipe) {
             this.recipes.splice(this.recipes.indexOf(recipe), 1)
+        },
+        addCalendar(id, name) {
+            this.calendarRecipes.push({id, name})
         }
     },
 };

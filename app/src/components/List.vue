@@ -10,7 +10,7 @@ defineProps({
         type: Boolean,
         required: false,
         default: false,
-    }
+    },
 });
 </script>
 
@@ -29,7 +29,13 @@ defineProps({
                 <a href="#!"><i class="material-icons">chevron_right</i></a>
             </li>
         </ul>
-        <Tile :recipes="this.recipes" :personalPage="personalPage" @recipeChosen="this.recipeChosen" @removeRecipe="removeRecipe"></Tile>
+        <Tile
+            :recipes="this.recipes"
+            :personalPage="personalPage"
+            @recipeChosen="this.recipeChosen"
+            @removeRecipe="removeRecipe"
+            @addCalendar="addCalendar"
+        ></Tile>
     </div>
 </template>
 
@@ -40,10 +46,13 @@ export default {
             this.$emit("recipeChosen", id);
         },
         removeRecipe(recipe) {
-            this.$emit('removeRecipe', recipe)
-        }
-    }
-}
+            this.$emit("removeRecipe", recipe);
+        },
+        addCalendar(id, name) {
+            this.$emit("addCalendar", id, name);
+        },
+    },
+};
 </script>
 
 <style scoped>

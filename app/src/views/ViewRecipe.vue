@@ -67,7 +67,7 @@ export default {
                         author: data.username,
                     };
                     this.ingredients = data.ingredients;
-                    this.steps = data.recipe_steps.split("\\n\\n");
+                    this.steps = data.recipe_steps.split("\n\n");
                 });
         },
     },
@@ -78,6 +78,10 @@ export default {
 .ingredients {
     position: sticky;
     top: 100px;
+}
+
+.row {
+    text-align: center;
 }
 
 @media only screen and (max-width: 600px) {

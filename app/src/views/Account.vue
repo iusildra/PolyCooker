@@ -17,7 +17,13 @@ defineProps({
                 @searchRecipes="searchRecipes"
                 :personalPage="false"
             ></Searchbar>
-            <List :recipes="this.recipes" :personalPage="true" @recipeChosen="recipeChosen" @removeRecipe="removeRecipe"></List>
+            <List
+                :recipes="this.recipes"
+                :personalPage="true"
+                @recipeChosen="recipeChosen"
+                @removeRecipe="removeRecipe"
+                @addCalendar="addCalendar"
+            ></List>
         </div>
     </main>
 </template>
@@ -55,8 +61,11 @@ export default {
             this.$emit("recipeChosen", id);
         },
         removeRecipe(recipe) {
-            this.$emit("removeRecipe", recipe)
-        }
+            this.$emit("removeRecipe", recipe);
+        },
+        addCalendar(id, name) {
+            this.$emit("addCalendar", id, name);
+        },
     },
 };
 </script>

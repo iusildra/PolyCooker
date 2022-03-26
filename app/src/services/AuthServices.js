@@ -11,9 +11,9 @@ export default {
             .post(url + "signup/", credentials)
             .then((response) => response.data);
     },
-    async getSecretContent() {
+    async updateData(credentials) {
         return axios
-            .get(url + "secret-route/")
+            .put(url + "users/"+credentials["id"], credentials)
             .then((response) => response.data);
     },
 };

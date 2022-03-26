@@ -7,7 +7,7 @@
 				<div class="col l6 s12">
 					<h5 class="white-text">About PolyCooker</h5>
 					<p class="grey-text text-lighten-4">
-						I've made this cooking site during a web project at Polytech Montpellier using Vue.js, Node.js and Express.js
+						I've made this cooking site during a 2 weeks web project at Polytech Montpellier using Vue.js, Node.js and Express.js. You can create recipes and add them to a calendar in order to plan your shopping.
 					</p>
 				</div>
 				<div class="col l4 offset-l2 s12">
@@ -34,7 +34,7 @@
 		</div>
 		<div class="footer-copyright">
 			<div class="container">
-				© Too perfectible to claim copyrights :) ©
+				© Way too perfectible to claim copyrights :) ©
 			</div>
 		</div>
 	</footer>

@@ -43,7 +43,7 @@ defineProps({
                 <p class="center">Type : {{ recipe["type_name"] }}</p>
                 <p class="center">Diet : {{ recipe["diet_name"] }}</p>
             </div>
-            <div class="card-action">
+            <div class="card-action" v-if="this.getters.isLoggedIn">
                 <button
                     type="button"
                     class="waves-effect waves-light btn red"
@@ -55,9 +55,9 @@ defineProps({
                 <button
                     type="button"
                     class="waves-effect waves-light btn add"
-                    @click="addCalendar"
+                    @click="addCalendar(recipe.recipe_id, recipe.recipe_name)"
                 >
-                    Choose
+                    Add
                 </button>
             </div>
         </div>
@@ -66,14 +66,30 @@ defineProps({
 
 <script>
 export default {
+    data() {
+        return {
+            getters: this.$store.getters
+        }
+    },
     methods: {
         chooseRecipe(id) {
             this.$router.push("/recipe/" + id);
             this.$emit("recipeChosen", id);
         },
+        addCalendar(id, name) {
+            this.$emit("addCalendar", id, name);
+            M.toast({
+                html: "Recipe has been added to your calendar !",
+                classes: "rounded",
+            });
+        },
         deleteRecipe(recipe) {
+            let confirm = prompt("Please enter the name of the recipe to confirm its deletion")
+            if (confirm != recipe.recipe_name) return
             axios
-                .delete("http://localhost:3080/api/recipes/id/" + recipe.recipe_id)
+                .delete(
+                    "http://localhost:3080/api/recipes/id/" + recipe.recipe_id
+                )
                 .then((response) => {
                     M.toast({
                         html: response.data.msg,

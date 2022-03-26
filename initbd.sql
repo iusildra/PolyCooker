@@ -112,9 +112,9 @@ insert into recipes values
 	('aaaa', '9eade1ec-2a04-459e-8297-68a293c38554', 'Boiled rice with grapes', 15, 5, 'Boil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\n', 'Autumn', 'Main dish', 'Vegan', 0.5, 0.5, NOW());
 
 insert into contains values 
-	('a', 'Rice', 1, 'kg'),
+	('a', 'Rice', 1000, 'g'),
 	('aa', 'Rice', 500, 'g'),
 	('aaa', 'Rice', 750, 'g'), 
-	('aaa', 'Melon', 250, 'kg'),
-	('aaaa', 'Rice', 1, 'kg'),
-	('aaaa', 'Grapes', 2, 'kg');
+	('aaa', 'Melon', 250000, 'g'),
+	('aaaa', 'Rice', 1000, 'g'),
+	('aaaa', 'Grapes', 2000, 'g');

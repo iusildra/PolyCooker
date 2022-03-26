@@ -35,6 +35,13 @@ LEFT JOIN types ON recipe_type=type_name
 LEFT JOIN diets ON recipe_diet=diet_name`
 );
 
+const recipeIngredients = `
+SELECT in_recipe, the_ingredient, quantity/recipe_for "Q per person", contained_unit
+FROM contains
+INNER JOIN recipes ON in_recipe=recipe_id
+WHERE in_recipe IN (
+`;
+
 function makeRecipeRequest(
     params = { search: "{}", id: "", limit: defaultLimit, offset: 0 }
 ) {
@@ -92,6 +99,15 @@ function makeRecipeRequest(
     return getSomeRecipes;
 }
 
+function makeIngredientRequest(meals) {
+    let getIngredients = recipeIngredients;
+    for (const id of meals) {
+        getIngredients += format("%L", id) + ",";
+    }
+    getIngredients = getIngredients.slice(0, -1) + ")";
+    return getIngredients;
+}
+
 const insertRecipe = `INSERT INTO recipes VALUES
         (%L, %L, %L, %L, %L, %L, %L, %L, %L, %L, %L, NOW())`;
 router
@@ -108,44 +124,65 @@ router
         });
     })
     .post((req, res) => {
-        const recipe_uuid = uuid.v4();
-        const sql = format(
-            insertRecipe,
-            recipe_uuid,
-            req.body.author,
-            req.body.name,
-            req.body.for,
-            req.body.duration,
-            req.body.steps,
-            req.body.season.length > 0 ? req.body.season : null,
-            req.body.type.length > 0 ? req.body.type : null,
-            req.body.diet.length > 0 ? req.body.diet : null,
-            req.body.difficulty,
-            req.body.cost
-        );
-        pool.query(sql, (err) => {
-            if (err) {
-                return res.status(500).send(err);
-            }
-            let insertIngredients = `INSERT INTO contains VALUES `;
-            req.body.ingredients.forEach((elt) => {
-                insertIngredients += format(
-                    `('${recipe_uuid}', %L, %L, %L),`,
-                    elt.name,
-                    elt.quantity,
-                    elt.unit
+        validate.validateToken(
+            req.headers.authorization.split(" ")[1],
+            (err, data) => {
+                if (err) return res.status(403)
+                let recipe_uuid = uuid.v4();
+                let post_recipe = format(
+                    insertRecipe,
+                    recipe_uuid,
+                    req.body.author,
+                    req.body.name,
+                    req.body.for,
+                    req.body.duration,
+                    req.body.steps,
+                    req.body.season.length > 0 ? req.body.season : null,
+                    req.body.type.length > 0 ? req.body.type : null,
+                    req.body.diet.length > 0 ? req.body.diet : null,
+                    req.body.difficulty,
+                    req.body.cost
                 );
-            });
-            insertIngredients = insertIngredients.slice(0, -1);
-            pool.query(insertIngredients, (err1) => {
-                if (err1) return res.status(500).send(err1);
-                else
-                    return res
-                        .status(200)
-                        .json({ msg: "Recipe successfully created !" });
-            });
-        });
+                pool.query(post_recipe, (err) => {
+                    if (err) {
+                        return res.status(500).send(err);
+                    }
+                    let insertIngredients = `INSERT INTO contains VALUES `;
+                    req.body.ingredients.forEach((elt) => {
+                        insertIngredients += format(
+                            `('${recipe_uuid}', %L, %L, %L),`,
+                            elt.name,
+                            elt.quantity,
+                            elt.unit
+                        );
+                    });
+                    insertIngredients = insertIngredients.slice(0, -1);
+                    pool.query(insertIngredients, (err1) => {
+                        if (err1) {
+                            pool.query(
+                                `DELETE FROM recipes WHERE recipe_id=${recipe_uuid}`
+                            );
+                            return res.status(500).send(err1);
+                        } else
+                            return res
+                                .status(200)
+                                .json({ msg: "Recipe successfully created !" });
+                    });
+                });
+            }
+        );
     });
+
+router.route("/ingredients/").get((req, res) => {
+    if (req.query.meals == null) return res.status(400);
+
+    let query = makeIngredientRequest(req.query.meals);
+    pool.query(query, (err, results) => {
+        if (err) return res.status(500).json(err);
+        return res.status(200).send(results.rows);
+    });
+    res.status(200);
+});
 
 router
     .route("/id/:id")
@@ -153,17 +190,17 @@ router
         next();
     })
     .get((req, res) => {
-        let sql = format(
+        let get_recipe = format(
             getRecipeById,
             req.params["id"],
             defaultLimit,
             defaultoffset
         );
-        pool.query(sql, (err, results) => {
+        pool.query(get_recipe, (err, results) => {
             if (err) return res.status(500).send(err);
             else if (results.rows.length == 0) return res.status(400);
-            sql = format(getRecipeIngredients, req.params["id"]);
-            pool.query(sql, (err1, results1) => {
+            get_recipe = format(getRecipeIngredients, req.params["id"]);
+            pool.query(get_recipe, (err1, results1) => {
                 if (err1) return res.status(500);
                 else if (results1.rows.length == 0) return res.status(400);
                 results.rows[0]["ingredients"] = results1.rows;
@@ -179,13 +216,13 @@ router
         }
 
         validate.validateToken(token, (err, data) => {
-            if (err) return res.status(403).send(err)
+            if (err) return res.status(403).send(err);
             const sql = format(
                 `SELECT recipe_author FROM recipes WHERE recipe_id=%L`,
                 req.params.id
             );
             pool.query(sql, (err0, results) => {
-                if (err0) return res.status(500).send(err0)
+                if (err0) return res.status(500).send(err0);
                 if (results.rowCount == 0) return res.status(404);
                 if (results.rows[0]["recipe_author"] != data.userid)
                     return res.status(403);
@@ -197,7 +234,10 @@ router
                 );
                 pool.query(sql_delete, (err1) => {
                     if (err1) res.status(500).send(err1);
-                    else res.status(200).json({msg: "Recipe successfully deleted !"});
+                    else
+                        res.status(200).json({
+                            msg: "Recipe successfully deleted !",
+                        });
                 });
             });
         });
