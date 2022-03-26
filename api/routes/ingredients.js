@@ -1,3 +1,4 @@
+const valide = require("../services/tokenVerification");
 const router = require("express").Router();
 const format = require("pg-format");
 const pool = require("../db");
@@ -14,23 +15,26 @@ router
 		ORDER BY ingredient_name ASC`,
             (err, results) => {
                 if (err)
-                    res.status(500).send({ msg: "DB Error, please try again" });
+                    res.status(500).send({ msg: err });
                 else res.status(200).json(results.rows);
             }
         );
     })
     .post((req, res) => {
-        const sql = format(
-            `INSERT INTO ingredients VALUES(%L, %L, %L)`,
-            req.query["name"],
-            req.query["unit"],
-            req.query["allergen"],
-        );
-        pool.query(sql, (err, results) => {
-            if (err)
-                res.status(500).send({ msg: "DB Error, please try again" });
-            else res.status(200);
-        });
+        valide.validateToken(req.headers.authorization.split(" ")[1], (err, data) => {
+            if (err) return res.status(401).send({msg: "You are not logged in !"})
+            const sql = format(
+                `INSERT INTO ingredients VALUES(%L, %L, %L)`,
+                req.body.ingredient_name,
+                req.body.is_allergen,
+                req.body.ingredient_season
+            );
+            console.log(sql)
+            pool.query(sql, (err, results) => {
+                if (err) return res.status(500).send({ msg: err });
+                res.status(200).send({msg: "Ingredient successfully added !"})
+            });
+        })
     });
 
 router
@@ -47,7 +51,7 @@ router
         );
         pool.query(sql, (err, results) => {
             if (err)
-                res.status(500).send({ msg: "DB Error, please try again" });
+                res.status(500).send({ msg: err });
             else res.status(200).json(results.rows);
         });
     })

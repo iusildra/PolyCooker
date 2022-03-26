@@ -1,0 +1,18 @@
+{
+    "api_routes": {
+        "home": "http://localhost:3080/api/",
+        "seasons": "http://localhost:3080/api/seasons/",
+        "types": "http://localhost:3080/api/types/",
+        "diets": "http://localhost:3080/api/diets/",
+        "units": "http://localhost:3080/api/units/",
+        "users": "http://localhost:3080/api/users/",
+        "userById": "http://localhost:3080/api/users/id/",
+        "recipes": "http://localhost:3080/api/recipes/",
+        "recipeById": "http://localhost:3080/api/recipes/id/",
+        "recipesIngredients": "http://localhost:3080/api/recipes/ingredients/",
+        "ingredients": "http://localhost:3080/api/ingredients/",
+        "ingredientsByName": "http://localhost:3080/api/ingredients/name/",
+        "signin": "http://localhost:3080/api/signin/",
+        "signup": "http://localhost:3080/api/signup/"
+    }
+}

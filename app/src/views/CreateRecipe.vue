@@ -133,13 +133,61 @@
                         </option>
                     </select>
                 </div>
-                <div class="col s12">
+                <div class="col s12" id="ingr_actions">
+                    <div class="col s8">
+                        <button
+                            type="button"
+                            data-target="modal_addIngr"
+                            class="btn waves-effect waves-light materialize-red lighten-2 modal-trigger"
+                        >
+                            Missing ingredient ?
+                        </button>
+                    </div>
+                    <div class="col s4">
+                        <button
+                            type="button"
+                            class="btn waves-effect waves-light blue"
+                            @click="addIngredient"
+                        >
+                            <i class="material-icons">add</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div id="modal_addIngr" class="modal">
+                <div class="modal-content">
+                    <h4>New ingredient</h4>
+                    <div class="input-field">
+                        <input type="text" id="ingredient_name" />
+                        <label for="ingredient_name">Name</label>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <select id="ingredient_season">
+                                <option value="" selected>All</option>
+                                <option
+                                    :value="season.season_name"
+                                    v-for="season of this.seasons"
+                                >
+                                    {{ season.season_name }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="input-field col s6">
+                            <label>
+                                <input type="checkbox" id="is_allergen" />
+                                <span>Allergen ?</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
                     <button
                         type="button"
-                        class="btn waves-effect waves-light"
-                        @click="addIngredient"
+                        class="modal-close waves-effect waves-green btn-flat"
+                        @click="newIngredient"
                     >
-                        <i class="material-icons">add</i>
+                        Validate
                     </button>
                 </div>
             </div>
@@ -187,6 +235,7 @@
 
 <script>
 import axios from "axios";
+import api from "../config/config.json";
 export default {
     created() {
         this.fetchOptions(() => {
@@ -219,16 +268,16 @@ export default {
     methods: {
         async fetchOptions(callback) {
             await axios
-                .get("http://localhost:3080/api/seasons")
+                .get(api.api_routes.seasons)
                 .then((response) => (this.seasons = response.data));
             await axios
-                .get("http://localhost:3080/api/types")
+                .get(api.api_routes.types)
                 .then((response) => (this.types = response.data));
             await axios
-                .get("http://localhost:3080/api/diets")
+                .get(api.api_routes.diets)
                 .then((response) => (this.diets = response.data));
             await axios
-                .get("http://localhost:3080/api/units")
+                .get(api.api_routes.units)
                 .then((response) => (this.units = response.data));
             callback();
         },
@@ -262,16 +311,18 @@ export default {
                 cost: this.cost,
             };
             axios
-                .post("http://localhost:3080/api/recipes/", add)
+                .post(api.api_routes.recipes, add)
                 .then((response) => M.toast({ html: response.data.msg }))
-                .catch((err) => M.toast({ html: err.response.data.msg }));
+                .catch((err) => {
+                    M.toast({ html: err.response.data.msg });
+                });
         },
         getAutoComplete() {
             let input = document.getElementById("ingr_name");
             const value = input.value;
             if (value.length >= 3) {
                 axios
-                    .get("http://localhost:3080/api/ingredients/name/" + value)
+                    .get(api.api_routes.ingredientsByName + value)
                     .then((response) => {
                         let results = response.data
                             .map((elt) => `"${elt["ingredient_name"]}":""`)
@@ -303,6 +354,29 @@ export default {
         },
         deleteIngredient(ingr) {
             this.ingredients.splice(this.ingredients.indexOf(ingr), 1);
+        },
+        async newIngredient() {
+            const add = {
+                ingredient_name:
+                    document.getElementById("ingredient_name").value,
+                ingredient_season:
+                    document.getElementById("ingredient_season").value,
+                is_allergen: document.getElementById("is_allergen").checked,
+            };
+            try {
+                const response = await axios.post(
+                    api.api_routes.ingredients,
+                    add
+                );
+                M.toast({ html: response.data.msg, classes: "rounded" });
+                document.getElementById("ingr_name").value =
+                    add.ingredient_name;
+            } catch (err) {
+                M.toast({
+                    html: "Creation failed. Maybe the ingredient already exists ?",
+                    classes: "rounded",
+                });
+            }
         },
     },
 };
@@ -349,5 +423,17 @@ div .divider {
 .col {
     margin: 5px auto;
     text-align: center;
+}
+
+#ingr_actions div {
+    margin: auto;
+}
+
+#modal_addIngr {
+    max-width: 300px;
+}
+
+select {
+    width: fit-content;
 }
 </style>

@@ -38,8 +38,8 @@ create table recipes(
 	recipe_season TEXT REFERENCES seasons(season_name) ON DELETE SET NULL,
 	recipe_type TEXT REFERENCES types(type_name) ON DELETE SET NULL,
 	recipe_diet TEXT REFERENCES diets(diet_name) ON DELETE SET NULL,
-	recipe_difficulty INT NOT NULL CHECK (recipe_difficulty >= 0 AND recipe_difficulty <= 5),
-	recipe_cost INT NOT NULL CHECK (recipe_cost >= 0 AND recipe_difficulty <= 5), 
+	recipe_difficulty FLOAT NOT NULL CHECK (recipe_difficulty >= 0 AND recipe_difficulty <= 5),
+	recipe_cost FLOAT NOT NULL CHECK (recipe_cost >= 0 AND recipe_difficulty <= 5), 
 	creation_date DATE NOT NULL
 );
 
@@ -98,18 +98,18 @@ insert into units values
 
 insert into ingredients values
 	('Rice', FALSE, NULL),
-	('Melon', FALSE, 3),
-	('Grapes', FALSE, 4);
+	('Melon', FALSE, 'Summer'),
+	('Grapes', FALSE, 'Autumn');
 
 insert into users(user_id, email, username, admin, passwd, registration) values
 	('abcd', 'a', 'a', TRUE, 'azerty', NOW()),
 	('aaaa', 'b', 'b', FALSE, 'azertyuiop', NOW());
 
 insert into recipes values
-	('a', '9eade1ec-2a04-459e-8297-68a293c38554', 'Boiled rice', 4, 30, 'Boil some water, then throw the rice in', NULL, 'Main dish', 'Vegan', 1, 1, NOW()),
+	('a', 'abcd', 'Boiled rice', 4, 30, 'Boil some water, then throw the rice in', NULL, 'Main dish', 'Vegan', 1, 1, NOW()),
 	('aa', 'aaaa', 'Boiled rice bis', 2, 30, 'Boil some water, then throw the rice in', NULL, 'Main dish', 'Vegan', 1, 1, NOW()),
-	('aaa', '9eade1ec-2a04-459e-8297-68a293c38554', 'Boiled rice whith melon', 20, 10, 'Boil some water, then throw the rice & melon in', 'Summer', 'Main dish', 'Vegan', 1, 1, NOW()),
-	('aaaa', '9eade1ec-2a04-459e-8297-68a293c38554', 'Boiled rice with grapes', 15, 5, 'Boil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\n', 'Autumn', 'Main dish', 'Vegan', 0.5, 0.5, NOW());
+	('aaa', 'abcd', 'Boiled rice whith melon', 20, 10, 'Boil some water, then throw the rice & melon in', 'Summer', 'Main dish', 'Vegan', 1, 1, NOW()),
+	('aaaa', 'abcd', 'Boiled rice with grapes', 15, 5, 'Boil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\nBoil some water, then throw the rice & grapes in\n\n', 'Autumn', 'Main dish', 'Vegan', 0.5, 0.5, NOW());
 
 insert into contains values 
 	('a', 'Rice', 1000, 'g'),
