@@ -28,6 +28,7 @@ defineProps({
 
 <script>
 import axios from "axios";
+import api from "../config/config.json"
 export default {
     created() {
         if (this.recipe_id.length == 0) {
@@ -52,7 +53,7 @@ export default {
     methods: {
         fetchRecipe(id) {
             axios
-                .get("http://localhost:3080/api/recipes/id/" + id)
+                .get(api.api_routes.recipeById + id)
                 .then((response) => {
                     const data = response.data;
                     this.info = {

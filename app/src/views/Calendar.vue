@@ -75,10 +75,11 @@ defineProps({
 
 <script>
 import html2canvas from "html2canvas"
+import api from "../config/config.json"
 export default {
     created() {
         if (!this.$store.getters.isLoggedIn) {
-            this.$router.push("/signup");
+            this.$router.push("/signin");
             M.toast({
                 html: "You need to be logged in to access this page !",
                 classes: "rounded",
@@ -110,7 +111,6 @@ export default {
             const meals = document.querySelectorAll(".meal");
             meals.forEach((elt) => {
                 const id = elt.querySelector(".id").innerText;
-                // const name = elt.querySelector(".name").innerText;
                 const quantity = elt.querySelector(".nb_persons").value;
                 if (id.length > 0) {
                     if (crunchedMeals[id] != null)
@@ -119,7 +119,7 @@ export default {
                 }
             });
             axios
-                .get("http://localhost:3080/api/recipes/ingredients/", {
+                .get(api.api_routes.recipesIngredients, {
                     params: { meals: Object.keys(crunchedMeals) },
                 })
                 .then((response) =>

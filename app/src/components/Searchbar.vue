@@ -105,6 +105,7 @@ defineProps({
 
 <script>
 import axios from "axios";
+import api from "../config/config.json"
 
 axios.defaults.headers.common["Content-Type"] = "application/json";
 axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
@@ -132,7 +133,7 @@ export default {
             const value = input.value;
             if (value.length >= 3) {
                 axios
-                    .get("http://localhost:3080/api/ingredients/name/" + value)
+                    .get(api.api_routes.ingredientsByName + value)
                     .then((response) => {
                         let results = response.data
                             .map((elt) => `"${elt["ingredient_name"]}":""`)
@@ -169,13 +170,13 @@ export default {
         },
         async fetchOptions(callback) {
             await axios
-                .get("http://localhost:3080/api/seasons")
+                .get(api.api_routes.seasons)
                 .then((response) => (this.seasons = response.data));
             await axios
-                .get("http://localhost:3080/api/types")
+                .get(api.api_routes.types)
                 .then((response) => (this.types = response.data));
             await axios
-                .get("http://localhost:3080/api/diets")
+                .get(api.api_routes.diets)
                 .then((response) => (this.diets = response.data));
             callback();
         },

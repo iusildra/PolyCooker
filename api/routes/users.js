@@ -30,14 +30,14 @@ router
         );
         pool.query(sql, (err, results) => {
             if (err)
-                res.status(500).send({ msg: "DB Error, please try again" });
+                res.status(500).send({ msg: err });
             else res.status(200).json(results.rows);
         });
     })
     .patch((req, res) => {});
 
 router
-    .route("/:id")
+    .route("/id/:id")
     .all((req, res, next) => {
         next();
     })
@@ -65,7 +65,7 @@ router
         );
         pool.query(sql, (err, results) => {
             if (err)
-                res.status(500).send({ msg: "DB Error, please try again" });
+                res.status(500).send({ msg: err });
             else res.status(200).json(results.rows);
         });
     })
@@ -80,7 +80,7 @@ router
                     });
             });
         validateToken(req.headers.authorization.split(" ")[1], (err, data) => {
-            if (err) return res.status(403);
+            if (err) return res.status(401).send({msg: "You are not logged in !"});
             if (req.body.passwd) {
                 bcryptjs.hash(req.body.passwd, 10, (err_hash, hash) => {
                     if (err_hash) return res.status(500).send(err_hash);
@@ -112,7 +112,7 @@ router
     .delete((req, res) => {
         validateToken(req.headers.authorization.split(" ")[1], (err, data) => {
             if (err)
-                return res.status(403).send({ msg: "You're not authorized !" });
+                return res.status(401).send({ msg: "You are not logged in !" });
             if (data.userid != req.params["id"]) {
                 if (!data.admin) {
                     return res

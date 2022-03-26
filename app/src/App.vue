@@ -28,6 +28,7 @@ import Header from "./components/Header.vue";
 
 <script>
 import axios from "axios";
+import api from "./config/config.json"
 export default {
     data() {
         return {
@@ -40,7 +41,7 @@ export default {
     methods: {
         searchRecipes: function (search, id, offset = 0, limit = 25) {
             axios
-                .get("http://localhost:3080/api/recipes", {
+                .get(api.api_routes.recipes, {
                     params: {
                         search: search,
                         id: id,

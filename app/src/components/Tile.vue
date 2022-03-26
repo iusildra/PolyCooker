@@ -64,6 +64,7 @@ defineProps({
 </template>
 
 <script>
+import api from "../config/config.json"
 export default {
     data() {
         return {
@@ -85,7 +86,7 @@ export default {
             if (confirm != recipe.recipe_name) return;
             axios
                 .delete(
-                    "http://localhost:3080/api/recipes/id/" + recipe.recipe_id
+                    api.api_routes.recipeById + recipe.recipe_id
                 )
                 .then((response) => {
                     M.toast({

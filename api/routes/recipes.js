@@ -132,7 +132,7 @@ router
         validate.validateToken(
             req.headers.authorization.split(" ")[1],
             (err, data) => {
-                if (err) return res.status(403).send({msg: "You are not logged in !"});
+                if (err) return res.status(401).send({msg: "You are not logged in !"});
                 let recipe_uuid = uuid.v4();
                 let post_recipe = format(
                     insertRecipe,
@@ -213,7 +213,7 @@ router
     .delete((req, res) => {
         const token = req.headers.authorization.split(" ")[1];
         validate.validateToken(token, (err, data) => {
-            if (err) return res.status(403).send({msg: "You're not loggin in !"});
+            if (err) return res.status(401).send({msg: "You're not loggin in !"});
             const sql = format(
                 `SELECT recipe_author FROM recipes WHERE recipe_id=%L`,
                 req.params.id

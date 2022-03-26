@@ -67,6 +67,7 @@
 <script>
 M.AutoInit();
 import axios from "axios";
+import api from "../config/config.json"
 export default {
     data() {
         return { getters: this.$store.getters };
@@ -86,7 +87,7 @@ export default {
                 method: "POST",
             };
 
-            fetch("http://localhost:3080/api/signin", option)
+            fetch(api.api_routes.signin, option)
                 .then((res) => res.json())
                 .then((data) =>
                     M.toast({ html: data.msg, classes: "rounded" })
@@ -105,7 +106,7 @@ export default {
             const id = this.$store.getters.getUser.user_id;
             try {
                 const response = await axios.delete(
-                    "http://localhost:3080/api/users/" + id
+                    api.api_routes.userById + id
                 );
                 this.logout();
                 this.$emit("userDeleted", id);

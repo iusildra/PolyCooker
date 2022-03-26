@@ -1,19 +1,19 @@
 import axios from "axios";
-const url = "http://localhost:3080/api/";
+import api from "../config/config.json"
 export default {
     async signin(credentials) {
         return axios
-            .post(url + "signin/", credentials)
+            .post(api.api_routes.signin, credentials)
             .then((response) => response.data);
     },
     async signup(credentials) {
         return axios
-            .post(url + "signup/", credentials)
+            .post(api.api_routes.signup, credentials)
             .then((response) => response.data);
     },
     async updateData(credentials) {
         return axios
-            .put(url + "users/"+credentials["id"], credentials)
+            .put(api.api_routes.userById+credentials["id"], credentials)
             .then((response) => response.data);
     },
 };
