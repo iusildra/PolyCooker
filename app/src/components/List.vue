@@ -60,7 +60,6 @@ export default {
             return this.$route.path
         },
         nextPage() {
-            console.log(this.$route)
             return this.offset+this.limit
         },
         previousPage() {

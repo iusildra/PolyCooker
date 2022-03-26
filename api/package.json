@@ -8,7 +8,6 @@
     "dev": "nodemon ./index.js localhost 3080"
   },
   "dependencies": {
-    "async": "^3.2.3",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "express": "^4.17.3",
