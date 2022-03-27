@@ -1,18 +1,18 @@
 {
     "api_routes": {
-        "home": "http://localhost:3080/api/",
-        "seasons": "http://localhost:3080/api/seasons/",
-        "types": "http://localhost:3080/api/types/",
-        "diets": "http://localhost:3080/api/diets/",
-        "units": "http://localhost:3080/api/units/",
-        "users": "http://localhost:3080/api/users/",
-        "userById": "http://localhost:3080/api/users/id/",
-        "recipes": "http://localhost:3080/api/recipes/",
-        "recipeById": "http://localhost:3080/api/recipes/id/",
-        "recipesIngredients": "http://localhost:3080/api/recipes/ingredients/",
-        "ingredients": "http://localhost:3080/api/ingredients/",
-        "ingredientsByName": "http://localhost:3080/api/ingredients/name/",
-        "signin": "http://localhost:3080/api/signin/",
-        "signup": "http://localhost:3080/api/signup/"
+        "home": "http://polycookerapi.cluster-ig3.igpolytech.fr/api",
+        "seasons": "http://polycookerapi.cluster-ig3.igpolytech.fr/api/seasons/",
+        "types": "http://polycookerapi.cluster-ig3.igpolytech.fr/api/types/",
+        "diets": "http://polycookerapi.cluster-ig3.igpolytech.fr/api/diets/",
+        "units": "http://polycookerapi.cluster-ig3.igpolytech.fr/api/units/",
+        "users": "http://polycookerapi.cluster-ig3.igpolytech.fr/api/users/",
+        "userById": "http://polycookerapi.cluster-ig3.igpolytech.fr/api/users/id/",
+        "recipes": "http://polycookerapi.cluster-ig3.igpolytech.fr/api/recipes/",
+        "recipeById": "http://polycookerapi.cluster-ig3.igpolytech.fr/api/recipes/id/",
+        "recipesIngredients": "http://polycookerapi.cluster-ig3.igpolytech.fr/api/recipes/ingredients/",
+        "ingredients": "http://polycookerapi.cluster-ig3.igpolytech.fr/api/ingredients/",
+        "ingredientsByName": "http://polycookerapi.cluster-ig3.igpolytech.fr/api/ingredients/name/",
+        "signin": "http://polycookerapi.cluster-ig3.igpolytech.fr/api/signin/",
+        "signup": "http://polycookerapi.cluster-ig3.igpolytech.fr/api/signup/"
     }
 }
