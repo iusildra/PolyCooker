@@ -3,23 +3,20 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "start": "npm run build",
+    "start": "vite",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "axios": "^0.26.1",
-    "dotenv": "^16.0.0",
-    "html2canvas": "^1.4.1",
-    "vue": "^3.2.31",
-    "vue-router": "^4.0.14",
-    "vuex": "^4.0.2",
-    "vuex-persistedstate": "^4.1.0"
-  },
-  "devDependencies": {
+    "vuex-persistedstate": "^4.1.0",
     "@vitejs/plugin-vue": "^2.2.4",
+    "html2canvas": "^1.4.1",
+    "vue-router": "^4.0.14",
+    "dotenv": "^16.0.0",
+    "axios": "^0.26.1",
+    "vue": "^3.2.31",
+    "vuex": "^4.0.2",
     "vite": "^2.8.0"
-  },
-  "main": "./src/server.js"
+  }
 }
