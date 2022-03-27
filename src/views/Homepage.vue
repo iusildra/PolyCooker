@@ -16,13 +16,13 @@ defineProps({
             @searchRecipes="searchRecipes"
             :personalPage="true"
         ></Searchbar>
-        <List
+        <!-- <List
             :offset="this.offset"
             :limit="this.limit"
             :recipes="this.recipes"
             @recipeChosen="recipeChosen"
             @addCalendar="addCalendar"
-        ></List>
+        ></List> -->
     </div>
 </template>
 
