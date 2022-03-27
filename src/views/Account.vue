@@ -31,6 +31,7 @@ defineProps({
 </template>
 
 <script>
+import M from "materialize-css"
 const defaultOffset = 0;
 const defaultLimit = 25;
 M.AutoInit();

@@ -74,8 +74,9 @@ defineProps({
 </template>
 
 <script>
-import html2canvas from "html2canvas"
 import api from "../config/config.json"
+import html2canvas from "html2canvas"
+import M from "materialize-css"
 export default {
     created() {
         if (!this.$store.getters.isLoggedIn) {

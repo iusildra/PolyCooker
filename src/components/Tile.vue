@@ -65,6 +65,7 @@ defineProps({
 
 <script>
 import api from "../config/config.json"
+import M from "materialize-css"
 export default {
     data() {
         return {

@@ -104,8 +104,9 @@ defineProps({
 </template>
 
 <script>
-import axios from "axios";
 import api from "../config/config.json"
+import M from "materialize-css"
+import axios from "axios";
 
 axios.defaults.headers.common["Content-Type"] = "application/json";
 axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";

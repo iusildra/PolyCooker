@@ -44,6 +44,7 @@ defineProps({});
 
 <script>
 import AuthService from "../services/AuthServices";
+import M from "materialize-css"
 M.AutoInit();
 export default {
     data() {

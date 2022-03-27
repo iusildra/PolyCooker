@@ -65,9 +65,10 @@
 </template>
 
 <script>
-M.AutoInit();
-import axios from "axios";
 import api from "../config/config.json"
+import axios from "axios";
+import M from "materialize-css"
+M.AutoInit();
 export default {
     data() {
         return { getters: this.$store.getters };

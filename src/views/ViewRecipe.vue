@@ -27,8 +27,9 @@ defineProps({
 </template>
 
 <script>
-import axios from "axios";
 import api from "../config/config.json"
+import M from "materialize-css"
+import axios from "axios";
 export default {
     created() {
         if (this.recipe_id.length == 0) {

@@ -13,6 +13,7 @@
     "axios": "^0.26.1",
     "dotenv": "^16.0.0",
     "html2canvas": "^1.4.1",
+    "materialize-css": "^1.0.0-rc.2",
     "vite": "^2.8.0",
     "vue": "^3.2.31",
     "vue-router": "^4.0.14",
