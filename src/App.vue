@@ -5,7 +5,7 @@ import Header from "./components/Header.vue";
 
 <template>
     <Header @userDeleted="updateList"></Header>
-    <router-view
+    <!-- <router-view
         :recipes="this.recipes"
         :recipe_id="this.chosenRecipe"
         :calendarRecipes="this.calendarRecipes"
@@ -13,7 +13,7 @@ import Header from "./components/Header.vue";
         @recipeChosen="recipeChosen"
         @removeRecipe="removeRecipe"
         @addCalendar="addCalendar"
-    ></router-view>
+    ></router-view> -->
     <Footer></Footer>
     <div id="addRecipe">
         <router-link
