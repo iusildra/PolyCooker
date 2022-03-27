@@ -85,21 +85,6 @@ defineProps({
                 </button>
             </div>
         </form>
-        <!-- <div class="divider"></div>
-        <div>
-            <h6>Author(s)</h6>
-            <div class="col s12" id="recipe_list">
-                <ul class="pagination">
-                    <li class="waves-effect">
-                        <a><i class="material-icons">chevron_left</i></a>
-                    </li>
-                    <li class="waves-effect">
-                        <a><i class="material-icons">chevron_right</i></a>
-                    </li>
-                </ul>
-                <div id="authorsList"></div>
-            </div>
-        </div> -->
     </div>
 </template>
 
