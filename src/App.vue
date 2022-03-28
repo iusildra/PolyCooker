@@ -1,6 +1,6 @@
 <script setup>
-import Footer from "./components/Footer.vue";
-import Header from "./components/Header.vue";
+import Footer from "./components/App-footer.vue";
+import Header from "./components/App-header.vue";
 </script>
 
 <template>
@@ -27,8 +27,7 @@ import Header from "./components/Header.vue";
 </template>
 
 <script>
-import api from "./config/config.json"
-import M from "materialize-css"
+import api from "./config/config.json";
 import axios from "axios";
 export default {
     data() {
@@ -53,11 +52,17 @@ export default {
                         "Content-Type": "application/json",
                     },
                 })
-                .then((response) => (this.recipes = response.data))
+                .then((response) => {
+                    console.log(response);
+                    this.recipes = response.data;
+                    console.log(this.recipes)
+                })
                 .catch((err) => console.log(err));
         },
         updateList(id) {
-            this.recipes = this.recipes.filter(elt => elt.recipe_author!=id)
+            this.recipes = this.recipes.filter(
+                (elt) => elt.recipe_author != id
+            );
         },
         recipeChosen(id) {
             this.chosenRecipe = id;

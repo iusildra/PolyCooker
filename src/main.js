@@ -1,14 +1,14 @@
 import App from "./App.vue";
 import { createApp } from "vue";
 import { createRouter, createWebHashHistory } from "vue-router";
-import CreateRecipe from "./views/CreateRecipe.vue";
-import ViewRecipe from "./views/ViewRecipe.vue";
-import EditInfo from "./views/EditInfo.vue"
-import Calendar from "./views/Calendar.vue";
-import Homepage from "./views/Homepage.vue";
-import Account from "./views/Account.vue";
-import Signin from "./views/Signin.vue";
-import Signup from "./views/Signup.vue";
+import CreateRecipe from "./views/Create-recipe.vue";
+import ViewRecipe from "./views/Recipe-view.vue";
+import EditInfo from "./views/Edit-user-info.vue"
+import Calendar from "./views/User-calendar.vue";
+import Homepage from "./views/App-homepage.vue";
+import Account from "./views/User-account.vue";
+import Signin from "./views/Sign-in.vue";
+import Signup from "./views/Sign-up.vue";
 import Axios from "axios";
 import store from "./store";
 
@@ -35,5 +35,3 @@ createApp(App)
     .use(router)
     .use(store)
     .mount("#app");
-
-M.AutoInit();

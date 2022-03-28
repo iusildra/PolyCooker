@@ -1,4 +1,5 @@
 <script setup>
+import { defineProps } from 'vue';
 defineProps({
     info: {
         type: Object,

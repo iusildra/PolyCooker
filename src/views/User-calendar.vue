@@ -1,11 +1,11 @@
 <script setup>
-import axios from "axios";
-import Weeks from "../components/Weeks.vue";
+import Weeks from "../components/Calendar-weeks.vue";
+import { defineProps } from 'vue';
 defineProps({
     calendarRecipes: {
         type: Array,
         required: false,
-        default: [],
+        default: () => [],
     },
 });
 </script>
@@ -33,6 +33,7 @@ defineProps({
                 @dragstart="
                     startDrag($event, { id: recipe.id, name: recipe.name })
                 "
+                :key="recipe.id"
             >
                 {{ recipe.name }}<i class="close material-icons">close</i>
             </div>
@@ -51,7 +52,7 @@ defineProps({
         <div id="modal1" class="modal">
             <div ref="printcontent" class="modal-content">
                 <h4>Shopping list</h4>
-                <p v-for="i of Object.keys(this.shoppingList).sort()">
+                <p v-for="i of Object.keys(this.shoppingList).sort()" :key="i">
                     <label>
                         <input type="checkbox" />
                         <span>{{
@@ -77,6 +78,7 @@ defineProps({
 import api from "../config/config.json"
 import html2canvas from "html2canvas"
 import M from "materialize-css"
+import axios from "axios";
 export default {
     created() {
         if (!this.$store.getters.isLoggedIn) {

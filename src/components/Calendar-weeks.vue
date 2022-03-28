@@ -1,4 +1,5 @@
 <script setup>
+import { defineProps } from 'vue';
 defineProps({
     nbWeeks: {
         type: Number,
@@ -8,7 +9,7 @@ defineProps({
 </script>
 
 <template>
-    <div v-for="i in parseInt(this.nbWeeks, 10)">
+    <div v-for="i in parseInt(this.nbWeeks, 10)" :key="i">
         <div class="divider"></div>
         <div class="row weekNb">
             <h4>Week n°{{ i }}</h4>

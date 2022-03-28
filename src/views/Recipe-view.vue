@@ -1,7 +1,8 @@
 <script setup>
-import Ingredients from "../components/ViewIngredients.vue";
-import Steps from "../components/ViewSteps.vue";
-import Info from "../components/ViewInfo.vue";
+import Ingredients from "../components/Recipe-ingredients.vue";
+import Steps from "../components/Recipe-steps.vue";
+import Info from "../components/Recipe-info.vue";
+import { defineProps } from "vue";
 defineProps({
     recipe_id: {
         type: String,
@@ -27,8 +28,7 @@ defineProps({
 </template>
 
 <script>
-import api from "../config/config.json"
-import M from "materialize-css"
+import api from "../config/config.json";
 import axios from "axios";
 export default {
     created() {
@@ -39,7 +39,7 @@ export default {
         }
         this.$watch(
             () => this.$route.params,
-            (toParams, previousParams) => {
+            (toParams) => {
                 this.fetchRecipe(toParams["uuid"]);
             }
         );
@@ -53,24 +53,22 @@ export default {
     },
     methods: {
         fetchRecipe(id) {
-            axios
-                .get(api.api_routes.recipeById + id)
-                .then((response) => {
-                    const data = response.data;
-                    this.info = {
-                        diet: data.diet_name,
-                        season: data.season_name,
-                        type: data.type_name,
-                        cost: data.recipe_cost,
-                        difficulty: data.recipe_difficulty,
-                        duration: data.recipe_duration,
-                        for: data.recipe_for,
-                        name: data.recipe_name,
-                        author: data.username,
-                    };
-                    this.ingredients = data.ingredients;
-                    this.steps = data.recipe_steps.split("\n\n");
-                });
+            axios.get(api.api_routes.recipeById + id).then((response) => {
+                const data = response.data;
+                this.info = {
+                    diet: data.diet_name,
+                    season: data.season_name,
+                    type: data.type_name,
+                    cost: data.recipe_cost,
+                    difficulty: data.recipe_difficulty,
+                    duration: data.recipe_duration,
+                    for: data.recipe_for,
+                    name: data.recipe_name,
+                    author: data.username,
+                };
+                this.ingredients = data.ingredients;
+                this.steps = data.recipe_steps.split("\n\n");
+            });
         },
     },
 };

@@ -168,6 +168,7 @@
                                 <option
                                     :value="season.season_name"
                                     v-for="season of this.seasons"
+                                    :key="season.season_name"
                                 >
                                     {{ season.season_name }}
                                 </option>
@@ -235,7 +236,7 @@
 
 <script>
 import api from "../config/config.json";
-import M from "materialize-css"
+import M from "materialize-css";
 import axios from "axios";
 export default {
     created() {
@@ -357,7 +358,7 @@ export default {
             this.ingredients.splice(this.ingredients.indexOf(ingr), 1);
         },
         async newIngredient() {
-            const season = document.getElementById("ingredient_season").value
+            const season = document.getElementById("ingredient_season").value;
             const add = {
                 ingredient_name:
                     document.getElementById("ingredient_name").value,

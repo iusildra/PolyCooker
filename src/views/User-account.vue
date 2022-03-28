@@ -1,11 +1,12 @@
 <script setup>
-import Searchbar from "../components/Searchbar.vue";
-import List from "../components/List.vue";
+import Searchbar from "../components/App-searchbar.vue";
+import List from "../components/Recipes-list.vue";
+import { defineProps } from 'vue';
 defineProps({
     recipes: {
         type: Array,
         required: true,
-        default: [],
+        default: () => [],
     },
 });
 </script>
@@ -50,7 +51,7 @@ export default {
         }
         this.$watch(
             () => this.$route.query,
-            (toParams, previousParams) => {
+            (toParams) => {
                 this.offset = toParams.offset
                     ? parseInt(toParams.offset, 10)
                     : defaultOffset;

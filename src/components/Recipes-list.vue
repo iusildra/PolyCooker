@@ -1,10 +1,11 @@
 <script setup>
-import Tile from "./Tile.vue";
+import { defineProps } from 'vue';
+import Tile from "./Recipe-tile.vue";
 defineProps({
     recipes: {
         type: Array,
         required: false,
-        default: [],
+        default: () => [],
     },
     personalPage: {
         type: Boolean,
