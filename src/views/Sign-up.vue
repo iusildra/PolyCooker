@@ -5,7 +5,7 @@
         <form id="signup" @submit.prevent="signup">
             <h3>
                 {{
-                    this.$store.getters.getUser.admin
+                    getters.getUser.admin
                         ? "Create user"
                         : "Sign up"
                 }}

@@ -9,7 +9,7 @@ defineProps({
 </script>
 
 <template>
-    <div v-for="i in parseInt(this.nbWeeks, 10)" :key="i">
+    <div v-for="i in nbWeeks" :key="i">
         <div class="divider"></div>
         <div class="row weekNb">
             <h4>Week n°{{ i }}</h4>
@@ -17,14 +17,14 @@ defineProps({
         <div class="row col week">
             <div
                 class="meals col z-depth-1 s12 m6 xl4"
-                v-for="day of this.days"
+                v-for="day of days"
                 :key="day"
             >
                 <h5>{{ day }}</h5>
                 <h6>Noon</h6>
                 <div class="row meal valign-wrapper">
                     <div
-                        class="dropzone col s12 m5"
+                        class="dropzone valign-wrapper center col s12 m5"
                         @drop="onDrop($event)"
                         @dragover.prevent
                         @dragenter.prevent
@@ -77,10 +77,20 @@ export default {
         onDrop(evt) {
             const itemID = evt.dataTransfer.getData("itemID");
             const itemName = evt.dataTransfer.getData("itemName");
-            evt.target.querySelector(".id").innerText = itemID;
-            evt.target.querySelector(".name").innerText = itemName;
+            if (evt.target.tagName == "DIV") {
+                evt.target.querySelector(".id").innerText = itemID;
+                evt.target.querySelector(".name").innerText = itemName;
+            } else {
+                evt.target.innerText = itemName
+                evt.target.parentNode.querySelector(".id").innerText = itemID
+            }
         },
     },
+    computed: {
+        nbWeeks: function() {
+            return parseInt(this.nbWeeks, 10)
+        },
+    }
 };
 </script>
 

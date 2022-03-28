@@ -10,8 +10,9 @@
                     <input
                         type="text"
                         id="recipe_name"
-                        v-model="this.name"
+                        v-model="name"
                         required
+                        autocomplete="off"
                     />
                 </div>
                 <div class="col s12 m4">
@@ -19,7 +20,7 @@
                     <input
                         type="number"
                         id="nbPersons"
-                        v-model="this.for"
+                        v-model="nbPersons"
                         min="0"
                         required
                     />
@@ -29,7 +30,7 @@
                     <input
                         type="number"
                         id="duration"
-                        v-model="this.duration"
+                        v-model="duration"
                         min="0"
                         required
                     />
@@ -38,10 +39,10 @@
             <div class="divider"></div>
             <div class="row">
                 <div class="input-field col s12 m4">
-                    <select id="season_select" v-model="this.season">
+                    <select id="season_select" v-model="season">
                         <option value="" selected>All</option>
                         <option
-                            v-for="season of this.seasons"
+                            v-for="season of seasons"
                             :value="season['season_name']"
                             :key="season['season_name']"
                         >
@@ -51,10 +52,10 @@
                     <label for="season_select">Season</label>
                 </div>
                 <div class="input-field col s12 m4">
-                    <select id="type_select" v-model="this.type">
+                    <select id="type_select" v-model="type">
                         <option value="" selected>All</option>
                         <option
-                            v-for="type of this.types"
+                            v-for="type of types"
                             :value="type['type_name']"
                             :key="type['type_name']"
                         >
@@ -64,10 +65,10 @@
                     <label for="type_select">Type</label>
                 </div>
                 <div class="input-field col s12 m4">
-                    <select id="diet_select" v-model="this.diet">
+                    <select id="diet_select" v-model="diet">
                         <option value="" selected>All</option>
                         <option
-                            v-for="diet of this.diets"
+                            v-for="diet of diets"
                             :value="diet['diet_name']"
                             :key="diet['diet_name']"
                         >
@@ -82,7 +83,7 @@
             <div id="ingredients" class="row">
                 <div
                     class="ingredient col s12 m5 xl3 z-depth-1 valign-wrapper"
-                    v-for="(ingredient, i) of this.ingredients"
+                    v-for="(ingredient, i) of ingredients"
                     :key="i"
                 >
                     <div class="col s8">
@@ -167,7 +168,7 @@
                                 <option value="" selected>All</option>
                                 <option
                                     :value="season.season_name"
-                                    v-for="season of this.seasons"
+                                    v-for="season of seasons"
                                     :key="season.season_name"
                                 >
                                     {{ season.season_name }}
@@ -207,9 +208,9 @@
                         min="0"
                         max="5"
                         step="0.5"
-                        v-model="this.difficulty"
+                        v-model="difficulty"
                     />
-                    <p name="value">{{ this.difficulty }} / 5</p>
+                    <p name="value">{{ difficulty }} / 5</p>
                 </div>
                 <div class="input-field col s6">
                     <h6>Cost</h6>
@@ -219,9 +220,9 @@
                         min="0"
                         max="5"
                         step="0.5"
-                        v-model="this.cost"
+                        v-model="cost"
                     />
-                    <p name="value">{{ this.cost }} / 5</p>
+                    <p name="value">{{ cost }} / 5</p>
                 </div>
             </div>
             <div class="submit">
@@ -256,7 +257,7 @@ export default {
             diets: [],
             units: [],
             name: "",
-            for: 0,
+            nbPersons: 0,
             duration: 0,
             season: "",
             type: "",
@@ -302,7 +303,7 @@ export default {
             const add = {
                 author: this.$store.getters.getUser.user_id,
                 name: this.name,
-                for: this.for,
+                for: this.nbPersons,
                 duration: this.duration,
                 season: this.season,
                 type: this.type,

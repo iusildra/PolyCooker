@@ -19,10 +19,10 @@ defineProps({
                 :personalPage="false"
             ></Searchbar>
             <List
-                :recipes="this.recipes"
+                :recipes="recipes"
                 :personalPage="true"
-                :offset="this.offset"
-                :limit="this.limit"
+                :offset="offset"
+                :limit="limit"
                 @recipeChosen="recipeChosen"
                 @removeRecipe="removeRecipe"
                 @addCalendar="addCalendar"

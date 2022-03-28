@@ -16,7 +16,7 @@ defineProps({
                 <input
                     type="text"
                     id="author_search"
-                    v-model="this.authorSearch"
+                    v-model="authorSearch"
                 />
                 <label for="author_search" class="caption">Author</label>
             </div>
@@ -24,7 +24,7 @@ defineProps({
                 <input
                     type="text"
                     id="recipe_search"
-                    v-model="this.recipeSearch"
+                    v-model="recipeSearch"
                 />
                 <label for="recipe_search">Recipe</label>
             </div>
@@ -41,10 +41,10 @@ defineProps({
                 <label for="ingredients_search">Ingredient</label>
             </div>
             <div class="input-field">
-                <select id="season_select" v-model="this.season">
+                <select id="season_select" v-model="season">
                     <option value="" selected>All</option>
                     <option
-                        v-for="season of this.seasons"
+                        v-for="season of seasons"
                         :value="season['season_name']"
                         :key="season['season_name']"
                     >
@@ -54,10 +54,10 @@ defineProps({
                 <label for="season_select">Season</label>
             </div>
             <div class="input-field">
-                <select id="type_select" v-model="this.type">
+                <select id="type_select" v-model="type">
                     <option value="" selected>All</option>
                     <option
-                        v-for="type of this.types"
+                        v-for="type of types"
                         :value="type['type_name']"
                         :key="type['type_name']"
                     >
@@ -67,10 +67,10 @@ defineProps({
                 <label for="type_select">Type</label>
             </div>
             <div class="input-field">
-                <select id="diet_select" v-model="this.diet">
+                <select id="diet_select" v-model="diet">
                     <option value="" selected>All</option>
                     <option
-                        v-for="diet of this.diets"
+                        v-for="diet of diets"
                         :value="diet['diet_name']"
                         :key="diet['diet_name']"
                     >

@@ -15,7 +15,7 @@ defineProps({
 <template>
     <div
         class="col s12 m6 l4 xl3"
-        v-for="recipe of this.recipes"
+        v-for="recipe of recipes"
         :key="recipe['recipe_id']"
     >
         <div class="card hoverable">
@@ -43,7 +43,7 @@ defineProps({
                     <p class="center">Diet : {{ recipe["diet_name"] }}</p>
                 </div>
             </router-link>
-            <div class="card-action" v-if="this.getters.isLoggedIn">
+            <div class="card-action" v-if="getters.isLoggedIn">
                 <button
                     type="button"
                     class="waves-effect waves-light btn red"

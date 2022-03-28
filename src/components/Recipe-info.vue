@@ -20,7 +20,7 @@ defineProps({
             <span
                 >Duration:
                 {{
-                    this.diplayDuration(info.duration)
+                    diplayDuration(info.duration)
                 }}</span
             >
             <span>Difficulty : {{ info.difficulty}} / 5</span>

@@ -27,16 +27,16 @@ defineProps({
     <div class="col s12 m9 l9 xl10" id="recipe_list">
         <ul class="pagination">
             <li class="waves-effect">
-                <a :href="'#'+this.path+'?offset='+this.previousPage+'&limit=25'"><i class="material-icons">chevron_left</i></a>
+                <a :href="'#'+path+'?offset='+previousPage+'&limit=25'" :disabled="firstPage"><i class="material-icons">west</i></a>
             </li>
             <li class="waves-effect">
-                <a :href="'#'+this.path+'?offset='+this.nextPage+'&limit=25'"><i class="material-icons">chevron_right</i></a>
+                <a :href="'#'+path+'?offset='+nextPage+'&limit=25'"><i class="material-icons">east</i></a>
             </li>
         </ul>
         <Tile
-            :recipes="this.recipes"
+            :recipes="recipes"
             :personalPage="personalPage"
-            @recipeChosen="this.recipeChosen"
+            @recipeChosen="recipeChosen"
             @removeRecipe="removeRecipe"
             @addCalendar="addCalendar"
         ></Tile>
@@ -66,6 +66,9 @@ export default {
         previousPage() {
             const res = this.offset-this.limit
             return res < 0 ? 0 : res
+        },
+        firstPage() {
+            return this.offset == null || this.offset == 0
         }
     }
 };

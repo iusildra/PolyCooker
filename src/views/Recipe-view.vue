@@ -15,14 +15,14 @@ defineProps({
 <template>
     <div class="container">
         <div class="row">
-            <Info :info="this.info"></Info>
+            <Info :info="info"></Info>
         </div>
         <div class="row">
             <Ingredients
                 class="ingredients"
-                :ingredients="this.ingredients"
+                :ingredients="ingredients"
             ></Ingredients>
-            <Steps :steps="this.steps"></Steps>
+            <Steps :steps="steps"></Steps>
         </div>
     </div>
 </template>

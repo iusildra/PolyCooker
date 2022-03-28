@@ -13,7 +13,7 @@ defineProps({
 <template>
     <div id="calendar" class="container">
         <div class="row input-field">
-            <select name="" id="nbWeek" v-model="this.nbWeeks">
+            <select name="" id="nbWeek" v-model="nbWeeks">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -22,13 +22,13 @@ defineProps({
             <label for="nbWeek">Number of weeks</label>
         </div>
         <div class="col s12 m8">
-            <Weeks :nbWeeks="parseInt(this.nbWeeks, 10)"></Weeks>
+            <Weeks :nbWeeks="parseInt(nbWeeks, 10)"></Weeks>
         </div>
         <div class="col s12 m4"></div>
         <div class="row list">
             <div
                 class="chip"
-                v-for="recipe of this.calendarRecipes"
+                v-for="recipe of calendarRecipes"
                 draggable="true"
                 @dragstart="
                     startDrag($event, { id: recipe.id, name: recipe.name })
@@ -52,14 +52,14 @@ defineProps({
         <div id="modal1" class="modal">
             <div ref="printcontent" class="modal-content">
                 <h4>Shopping list</h4>
-                <p v-for="i of Object.keys(this.shoppingList).sort()" :key="i">
+                <p v-for="i of Object.keys(shoppingList).sort()" :key="i">
                     <label>
                         <input type="checkbox" />
                         <span>{{
-                            this.shoppingList[i].name +
+                            shoppingList[i].name +
                             " : " +
-                            this.shoppingList[i].q +
-                            this.shoppingList[i].unit
+                            shoppingList[i].q +
+                            shoppingList[i].unit
                         }}</span>
                     </label>
                 </p>
