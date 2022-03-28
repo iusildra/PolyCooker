@@ -268,18 +268,18 @@ export default {
     },
     methods: {
         async fetchOptions(callback) {
-            await axios
-                .get(api.api_routes.seasons)
-                .then((response) => (this.seasons = response.data));
-            await axios
-                .get(api.api_routes.types)
-                .then((response) => (this.types = response.data));
-            await axios
-                .get(api.api_routes.diets)
-                .then((response) => (this.diets = response.data));
-            await axios
-                .get(api.api_routes.units)
-                .then((response) => (this.units = response.data));
+            await fetch(api.api_routes.seasons)
+                .then((response) => response.json())
+                .then((data) => (this.seasons = data));
+            await fetch(api.api_routes.types)
+                .then((response) => response.json())
+                .then((data) => (this.types = data));
+            await fetch(api.api_routes.diets)
+                .then((response) => response.json())
+                .then((data) => (this.diets = data));
+            await fetch(api.api_routes.units)
+                .then((response) => response.json())
+                .then((data) => (this.units = data));
             callback();
         },
 
@@ -322,10 +322,10 @@ export default {
             let input = document.getElementById("ingr_name");
             const value = input.value;
             if (value.length >= 3) {
-                axios
-                    .get(api.api_routes.ingredientsByName + value)
-                    .then((response) => {
-                        let results = response.data
+                fetch(api.api_routes.ingredientsByName + value)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        let results = data
                             .map((elt) => `"${elt["ingredient_name"]}":""`)
                             .join();
                         results = "{" + results + "}";
@@ -357,11 +357,11 @@ export default {
             this.ingredients.splice(this.ingredients.indexOf(ingr), 1);
         },
         async newIngredient() {
+            const season = document.getElementById("ingredient_season").value
             const add = {
                 ingredient_name:
                     document.getElementById("ingredient_name").value,
-                ingredient_season:
-                    document.getElementById("ingredient_season").value,
+                ingredient_season: season.length > 0 ? season : null,
                 is_allergen: document.getElementById("is_allergen").checked,
             };
             try {

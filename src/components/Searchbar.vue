@@ -89,12 +89,9 @@ defineProps({
 </template>
 
 <script>
-import api from "../config/config.json"
-import M from "materialize-css"
-import axios from "axios";
+import api from "../config/config.json";
+import M from "materialize-css";
 
-axios.defaults.headers.common["Content-Type"] = "application/json";
-axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
 export default {
     mounted() {
         this.fetchOptions(() => {
@@ -118,10 +115,10 @@ export default {
             let input = document.getElementById("ingredients_search");
             const value = input.value;
             if (value.length >= 3) {
-                axios
-                    .get(api.api_routes.ingredientsByName + value)
-                    .then((response) => {
-                        let results = response.data
+                fetch(api.api_routes.ingredientsByName + value)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        let results = data
                             .map((elt) => `"${elt["ingredient_name"]}":""`)
                             .join();
                         results = "{" + results + "}";
@@ -146,24 +143,21 @@ export default {
             if (this.recipeSearch.length > 0)
                 search["recipe"] = this.recipeSearch;
             if (ingredients.length > 0) search["ingredients"] = ingredients;
-            if (this.season.length > 0)
-                search["seasonID"] = this.season;
-            if (this.type.length > 0)
-                search["typeID"] = this.type;
-            if (this.diet.length > 0)
-                search["dietID"] = this.diet;
+            if (this.season.length > 0) search["seasonID"] = this.season;
+            if (this.type.length > 0) search["typeID"] = this.type;
+            if (this.diet.length > 0) search["dietID"] = this.diet;
             this.$emit("searchRecipes", search);
         },
         async fetchOptions(callback) {
-            await axios
-                .get(api.api_routes.seasons)
-                .then((response) => (this.seasons = response.data));
-            await axios
-                .get(api.api_routes.types)
-                .then((response) => (this.types = response.data));
-            await axios
-                .get(api.api_routes.diets)
-                .then((response) => (this.diets = response.data));
+            await fetch(api.api_routes.seasons)
+                .then((response) => response.json())
+                .then((data) => (this.seasons = data));
+            await fetch(api.api_routes.types)
+                .then((response) => response.json())
+                .then((data) => (this.types = data));
+            await fetch(api.api_routes.diets)
+                .then((response) => response.json())
+                .then((data) => (this.diets = data));
             callback();
         },
     },

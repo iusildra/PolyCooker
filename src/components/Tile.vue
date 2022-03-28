@@ -64,8 +64,8 @@ defineProps({
 </template>
 
 <script>
-import api from "../config/config.json"
-import M from "materialize-css"
+import api from "../config/config.json";
+import M from "materialize-css";
 export default {
     data() {
         return {
@@ -86,9 +86,7 @@ export default {
             );
             if (confirm != recipe.recipe_name) return;
             axios
-                .delete(
-                    api.api_routes.recipeById + recipe.recipe_id
-                )
+                .delete(api.api_routes.recipeById + recipe.recipe_id)
                 .then((response) => {
                     M.toast({
                         html: response.data.msg,
@@ -102,7 +100,7 @@ export default {
                         class: "rounded",
                     });
                     if (err.response.status == 403) {
-                        this.$router.push("/signin")
+                        this.$router.push("/signin");
                     }
                 });
         },
@@ -144,7 +142,8 @@ img {
     margin: 5px auto;
 }
 
-router-link, a {
+router-link,
+a {
     text-decoration: none;
     color: black;
 }

@@ -65,9 +65,9 @@
 </template>
 
 <script>
-import api from "../config/config.json"
+import api from "../config/config.json";
+import M from "materialize-css";
 import axios from "axios";
-import M from "materialize-css"
 M.AutoInit();
 export default {
     data() {

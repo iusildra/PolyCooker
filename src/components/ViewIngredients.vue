@@ -28,10 +28,6 @@ defineProps({
     </div>
 </template>
 
-<script>
-export default {};
-</script>
-
 <style scoped>
 .col {
     position: sticky;
