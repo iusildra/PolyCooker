@@ -12,7 +12,6 @@ import Signup from "./views/Sign-up.vue";
 import Axios from "axios";
 import store from "./store";
 
-console.log(process.env.BASE_URL);
 Axios.defaults.headers.common["Authorization"] = `Bearer ${store.state.token}`;
 const routes = [
     { path: "/", component: Homepage },
