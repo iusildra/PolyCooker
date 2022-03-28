@@ -80,26 +80,20 @@ export default {
 }
 #addRecipe {
     position: fixed;
-    right: 50px;
-    bottom: 202px;
-}
-.btn {
-    overflow: hidden;
-}
-.btn:hover:before {
-    opacity: 1;
+    z-index: 2;
 }
 
-.btn:before {
-    content: "";
-    opacity: 0;
-    background-color: rgba(0, 0, 0, 0.6);
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    transition: opacity 0.2s;
-    z-index: -1;
+@media screen and (min-width: 601px) {
+    #addRecipe {
+        right: 50px;
+        bottom: 100px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #addRecipe {
+        right: 50px;
+        bottom: 150px;
+    }
 }
 </style>

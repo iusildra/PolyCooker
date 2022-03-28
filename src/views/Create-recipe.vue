@@ -159,7 +159,11 @@
                 <div class="modal-content">
                     <h4>New ingredient</h4>
                     <div class="input-field">
-                        <input type="text" id="ingredient_name" autocomplete="off"/>
+                        <input
+                            type="text"
+                            id="ingredient_name"
+                            autocomplete="off"
+                        />
                         <label for="ingredient_name">Name</label>
                     </div>
                     <div class="row">
@@ -315,9 +319,14 @@ export default {
             };
             axios
                 .post(api.api_routes.recipes, add)
-                .then((response) => M.toast({ html: response.data.msg }))
+                .then((response) =>
+                    M.toast({ html: response.data.msg, classes: "rounded" })
+                )
                 .catch((err) => {
-                    M.toast({ html: err.response.data.msg });
+                    M.toast({
+                        html: err.response.data.msg,
+                        classes: "rounded",
+                    });
                 });
         },
         getAutoComplete() {

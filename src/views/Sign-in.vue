@@ -28,6 +28,17 @@ import M from "materialize-css";
 M.AutoInit();
 
 export default {
+    created() {
+        if (this.getters.isLoggedIn) {
+            this.$router.push("/account")
+            M.toast({html: "You are already logged in !", classes:"rounded"})
+        }
+    },
+    data() {
+        return {
+            getters: this.$store.getters
+        }
+    },
     methods: {
         signin: async function () {
             try {

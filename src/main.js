@@ -21,8 +21,8 @@ const routes = [
     { path: "/calendar", component: Calendar },
     { path: "/editinfo", component: EditInfo },
     { path: "/createuser", component: Signup },
-    { path: "/createrecipe", component: CreateRecipe },
     { path: "/recipe/:uuid", component: ViewRecipe },
+    { path: "/createrecipe", component: CreateRecipe },
     // { path: "/:*", component: Homepage }
 ];
 

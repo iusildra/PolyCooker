@@ -4,11 +4,7 @@
     <div class="container">
         <form id="signup" @submit.prevent="signup">
             <h3>
-                {{
-                    getters.getUser.admin
-                        ? "Create user"
-                        : "Sign up"
-                }}
+                {{ getters.getUser.admin ? "Create user" : "Sign up" }}
             </h3>
             <div v-if="getters.getUser.admin">
                 <label>
@@ -47,6 +43,15 @@ import AuthService from "../services/AuthServices";
 import M from "materialize-css";
 M.AutoInit();
 export default {
+    mounted() {
+        if (this.getters.isLoggedIn && !this.getters.getUser.admin) {
+            this.$router.push("/account");
+            M.toast({
+                html: "Your are already logged in !",
+                classes: "rounded",
+            });
+        }
+    },
     data() {
         return {
             getters: this.$store.getters,
@@ -54,6 +59,12 @@ export default {
     },
     methods: {
         signup: async function () {
+            const regex = /^\w+[\w-\\.]*@\w+((-\w+)|(\w*))\.[a-z]{2,3}$/;
+            const email = document.querySelector("#email").value;
+            if (regex[Symbol.search](email) == "-1") {
+                M.toast({ html: "Invalid email !", classes: "rounded" });
+                return;
+            }
             try {
                 const credentials = {};
                 document.querySelectorAll("#signup input").forEach((elt) => {
@@ -67,7 +78,6 @@ export default {
                 M.toast({ html: response.msg, classes: "rounded" });
                 this.$router.push("/signin");
             } catch (error) {
-                console.log(error);
                 M.toast({ html: error.response.data.msg, classes: "rounded" });
             }
         },
