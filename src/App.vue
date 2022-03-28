@@ -52,11 +52,7 @@ export default {
                         "Content-Type": "application/json",
                     },
                 })
-                .then((response) => {
-                    console.log(response);
-                    this.recipes = response.data;
-                    console.log(this.recipes)
-                })
+                .then((response) => (this.recipes = response.data))
                 .catch((err) => console.log(err));
         },
         updateList(id) {

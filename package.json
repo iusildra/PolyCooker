@@ -3,14 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "lint": "vue-cli-service lint",
+    "start": "node ./src/server.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "deploy": "git subtree push --prefix dist polycooker-front main"
   },
   "dependencies": {
     "axios": "^0.26.1",
     "core-js": "^3.8.3",
     "dotenv": "^16.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.3",
     "html2canvas": "^1.4.1",
     "materialize-css": "^1.0.0-rc.2",
     "vue": "^3.2.13",
