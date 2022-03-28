@@ -69,9 +69,6 @@ import api from "../config/config.json";
 import M from "materialize-css";
 import axios from "axios";
 export default {
-    created() {
-        M.AutoInit()
-    },
     mounted() {
         M.AutoInit()
     },
