@@ -159,7 +159,7 @@
                 <div class="modal-content">
                     <h4>New ingredient</h4>
                     <div class="input-field">
-                        <input type="text" id="ingredient_name" />
+                        <input type="text" id="ingredient_name" autocomplete="off"/>
                         <label for="ingredient_name">Name</label>
                     </div>
                     <div class="row">
