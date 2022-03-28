@@ -29,9 +29,11 @@ defineProps({
 
 <script>
 import api from "../config/config.json";
+import M from "materialize-css";
 import axios from "axios";
 export default {
     created() {
+        M.AutoInit();
         if (this.recipe_id.length == 0) {
             this.fetchRecipe(this.$route.params["uuid"]);
         } else {
