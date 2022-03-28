@@ -68,8 +68,10 @@
 import api from "../config/config.json";
 import M from "materialize-css";
 import axios from "axios";
-M.AutoInit();
 export default {
+    mounted() {
+        M.AutoInit()
+    },
     data() {
         return { getters: this.$store.getters };
     },
