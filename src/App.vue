@@ -28,6 +28,7 @@ import Header from "./components/App-header.vue";
 
 <script>
 import api from "./config/config.json";
+import M from "materialize-css"
 import axios from "axios";
 export default {
     data() {
@@ -53,20 +54,20 @@ export default {
                     },
                 })
                 .then((response) => (this.recipes = response.data))
-                .catch((err) => console.log(err));
+                .catch(() => M.toast({html: "Failed to fetch recipes", classes: "rounded"}));
         },
-        updateList(id) {
+        updateList: function(id) {
             this.recipes = this.recipes.filter(
                 (elt) => elt.recipe_author != id
             );
         },
-        recipeChosen(id) {
+        recipeChosen: function(id) {
             this.chosenRecipe = id;
         },
-        removeRecipe(recipe) {
+        removeRecipe: function(recipe) {
             this.recipes.splice(this.recipes.indexOf(recipe), 1);
         },
-        addCalendar(id, name) {
+        addCalendar: function(id, name) {
             this.calendarRecipes.push({ id, name });
         },
     },

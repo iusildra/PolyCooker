@@ -2,8 +2,23 @@
 
 <template>
     <div class="container">
-        <form id="createRecipe" @submit.prevent="onSubmit">
+        <form id="createRecipe" @submit.prevent="onSubmit" enctype="multipart/form-data">
+            <div class="row">
+                <div class="row image-preview" id="image-preview" v-if="image_data.length > 0">
+                    <img class="preview" :src="image_data" alt="New recipe's image" height="150">
+                </div>
+                <div class="input-field center">
+                    <input
+                        type="file"
+                        id="recipe_img"
+                        accept="image/png, image/jpeg, image/jpg"
+                        @change="previewImage"
+                    />
+                    <button type="button" v-if="image_data.length > 0" @click="image_data = ''">Delete</button>
+                </div>
+            </div>
             <h3>Add a new recipe</h3>
+            <div class="center"></div>
             <div class="row">
                 <div class="col s12 m4">
                     <label for="recipe_name">Recipe name</label>
@@ -82,11 +97,11 @@
             <h5>Ingredients</h5>
             <div id="ingredients" class="row">
                 <div
-                    class="ingredient col s12 m5 xl3 z-depth-1 valign-wrapper"
+                    class="ingredient col s12 m6 l5 xl3 z-depth-1 valign-wrapper"
                     v-for="(ingredient, i) of ingredients"
                     :key="i"
                 >
-                    <div class="col s8">
+                    <div class="col s6">
                         {{
                             ingredient.name +
                             " : " +
@@ -270,6 +285,7 @@ export default {
             difficulty: 0,
             cost: 0,
             count: 0,
+            image_data: "",
         };
     },
     methods: {
@@ -288,7 +304,24 @@ export default {
                 .then((data) => (this.units = data));
             callback();
         },
-
+        previewImage() {
+            // Reference to the DOM input element
+            var input = document.getElementById("recipe_img");
+            // Ensure that you have a file before attempting to read it
+            if (input.files && input.files[0]) {
+                console.log(input.files)
+                // create a new FileReader to read this image and convert to base64 format
+                var reader = new FileReader();
+                // Define a callback function to run, when FileReader finishes its job
+                reader.onload = (e) => {
+                    // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
+                    // Read image as base64 and set to imageData
+                    this.image_data = e.target.result;
+                };
+                // Start the reader job - read file as a data url (base64 format)
+                reader.readAsDataURL(input.files[0]);
+            }
+        },
         onSubmit() {
             if (this.ingredients.length == 0) {
                 M.toast({
@@ -316,6 +349,7 @@ export default {
                 steps: document.getElementById("recipe_steps").value,
                 difficulty: this.difficulty,
                 cost: this.cost,
+                img: document.getElementById("recipe_img").files
             };
             axios
                 .post(api.api_routes.recipes, add)
@@ -349,7 +383,6 @@ export default {
             const name = document.getElementById("ingr_name").value;
             const quantity = document.getElementById("ingr_quantity").value;
             const unit = document.getElementById("ingr_unit").value;
-            console.log(name, quantity, unit);
             if (name.length == 0 || quantity == 0 || unit.length == 0) {
                 M.toast({
                     html: "Please provide correct inputs !",
@@ -362,7 +395,6 @@ export default {
                     unit,
                 });
             }
-            console.log(this.ingredients);
         },
         deleteIngredient(ingr) {
             this.ingredients.splice(this.ingredients.indexOf(ingr), 1);
@@ -447,5 +479,16 @@ div .divider {
 
 select {
     width: fit-content;
+}
+
+#image-preview {
+    max-width: 200px;
+    max-height: 200px;
+}
+
+@media screen and (min-width:1200px) {
+    .ingredient {
+        min-width: 30%;
+    }
 }
 </style>
