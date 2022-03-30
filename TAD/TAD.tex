@@ -1,41 +1,44 @@
 %%%% Modèle proposé par colin.avogadri@umontpellier.fr %%%%
 %%%% 3 Février 2022 %%%%
 
-\documentclass[english,12pt,a4paper]{report}
+\documentclass[english,12pt,a4paper]{article}
+\usepackage[semibold]{sourcesanspro}
 \usepackage[utf8]{inputenc}
 \usepackage{mathpazo}
-\usepackage[semibold]{sourcesanspro}
 \usepackage{sectsty}
 % \allsectionsfont{\sffamily}
-\usepackage[T1]{fontenc}
 \usepackage[english]{babel}
+\usepackage[T1]{fontenc}
 \usepackage{fancyhdr}
 \usepackage{xcolor} % où xcolor selon l'installation
 \definecolor{Valentia}{RGB}{233,78,82}
 \definecolor{Titleblue}{RGB}{114, 146, 162}
+\usepackage{scrextend} % Forcer la 4eme  de couverture en page pair
 \usepackage{multirow} %% Pour mettre un texte sur plusieurs rangées
 \usepackage{multicol} %% Pour mettre un texte sur plusieurs colonnes
-\usepackage{scrextend} % Forcer la 4eme  de couverture en page pair
-\usepackage{tikz}
-\usepackage{graphicx}
-\graphicspath{{./img}}
 \usepackage[absolute]{textpos} 
-\usepackage{array}
+\usepackage{graphicx}
 \usepackage{geometry}
 \usepackage{hyperref} 
-\usepackage{ulem}
+\usepackage{titlesec}
 \usepackage{contour}
+\usepackage{array}
+\usepackage{ulem}
+\usepackage{tikz}
+\usepackage{multicolrule}
+\usepackage{caption}
+\usepackage{subcaption}
+\SetMCRule{extend-fill=false}
 
-\usepackage[Sonny]{fncychap} %% Pour changer le style de chapitre
+\graphicspath{{./img}}
+
 \pagestyle{fancy}
-%\fancyhf{}
-%\fancyhead[RE,RO]{\chaptername \thechapter . \chaptermark}
 \fancyhf{}
 \fancyheadoffset{0.005\textwidth}
-\fancyhead[LE]{\thepage}
-\fancyhead[RE]{\nouppercase\leftmark}
-\fancyhead[RO]{\thepage}
-\fancyhead[LO]{\nouppercase\rightmark}
+\lhead{PolyCooker}
+\rhead{Document d'Architecture Technique}
+\lfoot{Lucas Nouguier}
+\rfoot{Page \thepage\ / \pageref{page:lastpage}}
 
 \definecolor{black}{rgb}{0,0,0}
 \definecolor{green}{rgb}{0,0.5,0}
@@ -56,7 +59,29 @@
 	\uline{\phantom{#1}}%
 	\llap{\contour{white}{#1}}%
 }
+
+\renewcommand{\footrulewidth}{1pt}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \titleformat{\section}
+% {\titlerule
+% \vspace{.8ex}%
+% \Large\bfseries}
+% {\thesection.}{.5em}{}
+
+\titleformat{\part}[display]
+{\bfseries\Large}
+{\filleft PARTIE \Huge\thepart}
+{0ex}
+{\titlerule
+\vspace{1ex}%
+\filright}
+[\vspace{1ex}%
+\titlerule]
+
+\captionsetup{labelfont={it, bf}, textfont={it}}
+\setlength{\headheight}{15pt}
+% \addtolength{\topmargin}{-2.5pt}
 
 \begin{document}
 
@@ -96,7 +121,7 @@
 \vspace{4cm}
 \fontsize{15}{18}\selectfont
 \color{black}
-\textbf{Présentée par Lucas NOUGUIER\\
+\textbf{Présenté par Lucas NOUGUIER\\
 le 02 Avril 2022}
 
 \bigskip
@@ -110,8 +135,8 @@ le 02 Avril 2022}
 \fontsize{10}{12}\selectfont
 \vspace{1.5mm}
 \begin{center}
-	\textbf{Christophe Fiorio}\\
-	\textbf{Arnaud Castelltort}
+	\textbf{Christophe FIORIO}\\
+	\textbf{Arnaud CASTELTTORT}
 \end{center}
 
 %************************************
@@ -119,67 +144,29 @@ le 02 Avril 2022}
 %*****************************************************
 \vspace{\fill}
 \begin{center}
-	\includegraphics[scale=0.5]{LogoPolytech.png}
-	\hspace{2cm}
-	\includegraphics[scale=0.6]{LogoIG.png}
+	\includegraphics[height=60px]{LogoPolytech.png}
+	\hfill
+	\includegraphics[height=65px]{LogoUM.png}
 \end{center}
 }
 \end{titlepage}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newgeometry{top=2cm, bottom=2.5cm, left=2cm, right=2cm}
-
-\tableofcontents
+\setlength{\columnsep}{1cm}
+\begin{multicols}{2}
+	\tableofcontents
+\end{multicols}
 \pagebreak
 % insérez ici les fichiers des chapitre
-
-\part{Technologies utilisées}
-\chapter{VueJs}
-\section{Raison principale}
-J'ai choisi d'utiliser \href{https://vuejs.org/}{VueJs} car il s'agissait d'une technologie qui avait déjà été \ul{vue} lors du projet d'introduction au WEB. Pour un projet d'un peu moins de 3 semaines j'ai donc préféré exploiter ce que je connaissais déjà plutôt que de me lancer dans une nouvelle techno que je ne connaissais pas pour éviter de perdre trop de temps lors de la prise en main. Si le projet avait été plus long, j'aurai probablement regardé un peu plus les autres possibilités.
-
-\section{Réactivité}
-J'ai beaucoup apprécié la réactivité de Vue et la facilité avec laquelle on pouvait créer des éléments dans le DOM (via le \textit{v-for} notamment). Comme je savais que j'allais avoir un affichage par tuile qui correspondrait au résultat d'une requête, j'ai directement opté pour \href{https://vuejs.org/}{VueJs}.
-
-\section{Évènement}
-De même, il était extrêmement facile de gérer les différents évènements (clics de boutons, changement/chargement de page...) et grâce au stockage local de Vue (\href{https://vuex.vuejs.org/}{Vuex}), adapter le contenu de la page en fonction de l'utilisateur était très simple (en faisant néanmoins les vérifications d'identité dans le back)
-
-\section{Router}
-De plus, le router de Vue (\href{https://router.vuejs.org/}{Vue Router}) permet de facilement changer un seul composant sans avoir à recharger toute la page, ce qui me fut utile pour éviter d'avoir à regarder les composants \textit{Header} \& \textit{Footer}
-\chapter{NodeJs \& Express}
-Ne souhaitant pas faire de PHP, j'ai donc fait tout mon site avec du JS. J'ai alors utilisé \href{https://nodejs.org/en/}{NodeJs} pour la création du serveur. Pour gérer l'API j'ai choisi \href{https://expressjs.com/}{ExpressJs}, un framework opensource permettant de gérer facilement les routes.
-
-
-
-\part{Architecture}
-\chapter{Arborescence}
-\section{Source}
-J'ai choisi de séparer les sources de mon API et du front pour faciliter la lisibilité du projet et n'avoir que les dépendances requises par l'API ou le front.
-\section{Front-end}
-J'ai mis l'ensemble de mes sources dans le même fichier \textit{/src}. A l'intérieur les fichiers ont été séparés par fonctionnalité :
-\begin{itemize}
-	\item \textit{/src/assets} : fichiers statiques (images...)
-	\item \textit{/src/components} : fichiers \textbf{.vue} où se trouve des parties de page. Tous à l'exception de \ul{Header.vue} et \ul{Footer.vue} sont appelés dans une des pages définies dans \textit{views}
-	\item \textit{/src/config} : fichier de configuration qui regroupe divers paramètres. Actuellement il ne comporte que les \textit{end-points} de l'API
-	\item \textit{/src/materialize} : fichier regroupant l'ensemble des CSS et JS nécessaire au framework \href{https://materializecss.com/}{Materialize} pour correctement afficher les éléments
-	\item \textit{/src/services} : ficher faisant le lien entre les actions de connexion, inscription et modification des données d'un utilisateur du front et le back
-	\item \textit{/src/store} : fichier permettant de manipuler le stockage local de vue (\href{https://vuex.vuejs.org/}{Vuex})
-	\item \textit{/src/views} : fichiers \textbf{.vue} regroupant plusieurs components (situés dans \textit{components}) pour afficher le contenu principal de la page
-	\item \textit{/src/App.vue} : fichier principal représentant la page
-	\item \textit{/src/main.js} : fichier permettant de créer l'application \href{https://vuejs.org/}{VueJs}
-\end{itemize}
-\section{Back-end}
-La plupart des fichiers sont stockés à la racine dans divers dossiers :
-\begin{itemize}
-	\item \textit{/config} : fichier de configuration. Actuellement il ne comporte que l'URL depuis laquelle il accepte les requêtes
-	\item \textit{/middleware} : fichiers contenant les diverses fonctions intermédiaires à exécuter lors des requêtes
-	\item \textit{/routes} : contient les fichiers avec toutes les routes et les actions à faire en fonction de la requête et de la ressources demandée. Les routes et actions sont rangées par ressources.
-	\item \textit{/services} : fichiers d'aides. Ne contient actuellement qu'une méthode de vérification des json web token.
-	\item \textit{/index.js} : creation de l'application node js
-	\item \textit{/db.js} : fichier temporaire pour avec les informations de connexion à la base de données
-\end{itemize}
-
-\chapter{API}
+\setcounter{section}{0}
+\include{Contexte.tex}
+\setcounter{section}{0}
+\include{Architecture.tex}
+\setcounter{section}{0}
+\include{ExplicationsArchi.tex}
+\setcounter{section}{0}
+\include{Autres.tex}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

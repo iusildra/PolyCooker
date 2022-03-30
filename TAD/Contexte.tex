@@ -1,0 +1,49 @@
+\part{Contexte}
+\section{Objet}
+\href{https://polycooker.cluster-ig3.igpolytech.fr/}{PolyCooker©} est un site de cuisine développé lors d'un projet Web à Polytech Montpellier en réponse à un besoin vital d'optimisation du temps passé à faire ses courses alimentaires.
+\section{Acteurs}
+Il existe différents rôles sur \href{https://polycooker.cluster-ig3.igpolytech.fr/}{PolyCooker©} :
+\begin{itemize}
+	\item Utilisateur non connecté : il peut naviguer sur la page d'accueil et afficher des recettes. Il n'a aucun droit et l'accès aux ressources protégées est masqué par le \textit{front} (n'apparaît pas) et interdit par le \textit{back} (bloquera les requêtes).
+	\item Utilisateur connecté : il a accès aux mêmes fonctionnalités que l'invité, mais peut en plus créer des recettes, accéder à sa propre page et au calendrier. L'accès aux ressources administrateurs est masqué par le \textit{front} et interdit par le \textit{back}.
+	\item Utilisateur administrateur : il a les mêmes droits que l'utilisateur connecté avec en plus la possibilité de créer d'autres administrateurs et, plus tard, d'accéder à un paneau d'administration où il pourra supprimer des recettes et comptes d'autres utilisateurs.
+\end{itemize}
+
+\section{Contraintes métiers}
+\begin{itemize}
+	\item \textit{Scalabilité} : \href{https://polycooker.cluster-ig3.igpolytech.fr/}{PolyCooker©} a besoin d'être \textit{scalable} pour supporter la montée en charge.
+	\item Sauvergarde : Comme il s'agit d'un \textit{cloud} de recettes, faire des sauvergardes régulièrement serait avisé car une perte majeur de données ferait perdre confiance en le service.
+	\item Sécurité : Il s'agit d'une plateforme collaborative où chacun peu ajouter ses propres recettes (et ingrédients s'ils venaient à manquer). Il faut donc s'assurer que les personnes ont les bonnes permissions. De plus les utilisateurs pourraient être amenés à entrer des données plus personnelles selon les services rendus (numéro de téléphone...), il faut ainsi éviter qu'un utilisateur sans droit puisse accéder à la base de données et ainsi la modifier hors du cadre de l'API.
+	\item Disponibilité : Le site aura besoin d'être actif surtout lors des périodes de repas et le week-end, quand on prévoit ses courses. Si le site est hors services en France à 15h par exemple, l'impact sur les utilisateurs sera minime.
+	\item Portabilité : Dans la mesure où le site est une application web en JS, elle sera portable sur n'importe quel système d'exploitation. Mais il est probable qu'il soit beaucoup utilisé sur téléphone, donc le site doit s'adapter aux petits écrans.
+\end{itemize}
+
+\section{Fonctionnalités}
+\setlength{\columnsep}{1cm}
+\begin{multicols}{2}
+	\subsection{Communes}
+	On y retrouve les principales fonctionnalités des sites de cuisine à savoir :
+	\begin{itemize}
+		\item Création \& suppression de comptes utilisateurs
+		\item Création \& suppression de recettes
+		\item Recherches de recettes selon les critères suivants :
+		\begin{itemize}
+			\item Nom d'autheur
+			\item Nom de recette
+			\item Ingrédients
+			\item Saisonnalité
+			\item Type (entrée, dessert\dots)
+			\item Régime (omnivore\dots)
+		\end{itemize}
+	\end{itemize}
+
+	\columnbreak
+	\subsection{Spécifiques}
+	\href{https://polycooker.cluster-ig3.igpolytech.fr/}{PolyCooker©} comporte d'autre fonctionnalités moins répandues qui sont :
+	\begin{itemize}
+		\item Création d'ingrédients dans le cas où ils n'existent pas.
+		\item Intégration d'un calendrier (actuellement non persistant) permettant de visualiser rapidement les recettes à effectuer dans la(les) semaine(s) à venir.
+		\item Établissement d'une liste de course en fonction des recettes entrées dans le calendrier et du nombre de personnes renseignées. Impression en \textit{.png} disponible.
+	\end{itemize}
+	
+\end{multicols}

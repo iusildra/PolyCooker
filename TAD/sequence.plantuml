@@ -1,0 +1,83 @@
+@startuml PolyCookerTAD
+skinparam responseMessageBelowArrow true
+actor User
+participant Front as Front
+participant Back as Back
+database Postgres as Postgres
+
+== Sign up ==
+autonumber "<b>[00]"
+User -> Front ++: ask for signup
+Front -> Back ++: send entered\ncredentials
+Back --> Back: validate\ncredentials
+alt success
+Back -> Postgres ++: store credentials
+return send results
+Back --> Front: send results
+Front --> User: display results
+else validation failed
+|||
+Back --> Front --: send error
+Front --> User --: display error
+end
+
+== Sign in ==
+autonumber "<b>[00]"
+User -> Front ++: ask for login
+Front -> Back ++: send credentials
+Back -> Postgres ++:ask for\ncredentials
+return send results
+Back --> Back: validate\ncredentials
+alt success
+Back --> Front: send token
+Front --> User: display results
+else validation failure
+|||
+Back --> Front --: send failure
+Front --> User --: display error
+end
+
+newpage
+
+== Guest user ==
+autonumber "<b>[00]"
+User -> Front ++: ask for unprotected\nressources
+Front -> Back ++: send GET\nrequests
+Back -> Postgres ++: fetch datas
+return: send results
+return: send results
+return: display results
+
+== Normal user (Guest user +) ==
+autonumber "<b>[00]"
+User -> Front ++: ask for protected\nressources
+Front -> Back ++: send POST/PUT/DELETE\nrequests
+Back --> Back: validate token\nand ownership
+alt success
+Back -> Postgres ++: fetch datas
+return: send results
+Back --> Front: send results
+Front --> User: display results
+else validation failure
+|||
+return send error
+return display error
+end
+
+== Admin user (Normal user +) ==
+autonumber "<b>[00]"
+User -> Front ++: ask for protected\nressources
+Front -> Back ++: send POST/PUT/DELETE\nrequests
+Back --> Back: validate token\nand ownership
+note right #FFC:an admin will be able\nto access other\nuser's ressources
+alt success
+Back -> Postgres ++: fetch datas
+return: send results
+Back --> Front: send results
+Front --> User: display results
+else validation failure
+|||
+return send error
+return display error
+end
+@enduml

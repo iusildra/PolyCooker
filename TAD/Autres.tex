@@ -1,0 +1,26 @@
+\part{Autres}
+\section{Risques}
+L'application utilise des json web tokens et pour toute action entraînant une modification de la base de donnée, le token de l'utilisateur est vérifié pour s'assurer de son identité. Mais si le token est volé, alors une personne malveillante pourrait avoir accès à la base de données. Pour limiter les risques, les tokens ont actuellement une durée de validité de 6h.
+\section{Perspectives}
+\subsection{Expérience utilisateur}
+\begin{itemize}
+	\item Possibiliter d'ajouter des images.
+	\item Associer à des utiliateurs des paramètres par défault pour les recherches (un végétarien ne voudra jamais prendre de viande, il est donc inutile de lui en proposer).
+	\item Regrouper en haut des étapes de la recettes des contenus compressibles, où il y aurait les détails de certaines étapes plus techniques suceptibles de ne pas être connues du grand public, en fonction des mots-clés présents dans les étapes.
+\end{itemize}
+
+\subsection{Fonctionnalités}
+\begin{itemize}
+	\item Un calendrier persistant aligné sur un calendrier réel.
+	\item Un système de notation avec commentaire des recettes.
+	\item Une plateforme type réseau social où le thème serait exclusivement culinaire.
+	\item Une détermination automatique de la saison associé à la recette grâce à la saison des ingrédients contenus.
+	\item Des catégories alimentaires (fruits, légumes, viandes\dots) et des recherches par catégories avec une détermination automatique du régime d'une recette en fonction des catégories présentes.
+	\item La réplication du \href{https://www.santepubliquefrance.fr/determinants-de-sante/nutrition-et-activite-physique/articles/nutri-score}{Nutri-Score} grâce à des informations détaillées sur les ingrédients (pourcentage de sucre, graisse, vitamines\dots) avec la possibilité de proposer des plats en fonction de ceux déjà mis dans le calendrier pour avoir un régime équilibré.
+\end{itemize}
+\label{page:lastpage}
+
+\subsection{Économiques}
+\begin{itemize}
+	\item Revendre des données anonymisé sur ce qui est le plus consommé selon la localisation.
+\end{itemize}

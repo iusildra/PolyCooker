@@ -1,0 +1,90 @@
+@startuml Deployment
+
+actor User
+frame Front as Front {
+	component App.vue as App
+	file index.html as file
+	file <--> App
+	component Views [
+		<b>Views
+		--
+		Contient tous les
+		contenus principaux
+		des différentes pages
+		....
+		Homepage.vue,
+		Signin.vue, Signup.vue
+		etc...
+	]
+	App <--> Views
+
+	component Components [
+		<b>Components
+		---
+		Contient toutes les
+		parties des pages
+		définies par les
+		Views
+		....
+		Recipe-tiles.vue,
+		Recipe-searchbar.vue,
+		etc...
+	]
+
+	Components <-right-> Views
+
+	component Store[
+		<b>Store
+		---
+		Stockage local
+		où est stocké
+		le token et les
+		informations sur
+		l'utilisateur
+	]
+
+	file config.json as configFront
+
+	configFront <-> App
+	configFront <-> Views
+	configFront <-> Components
+
+	Store <-> App
+	Store <--> Views
+	Store <-down-> Components
+	Store <-[hidden]right-> configFront
+
+
+}
+
+frame Back as Back {
+	file index.js as index
+	component routes
+	component services
+	component middlewares
+	file config.json as config
+
+	index <-> routes
+	routes <--> services
+	routes <--> middlewares
+	routes <--> config
+
+}
+
+frame Database {
+database Postgres [
+Postgresql
+Database
+]
+
+}
+
+component "Web Browser" as Browser
+
+User <--> Browser
+Browser <--> file
+Views <-left-> index
+App <--left--> index
+routes <-up-> Postgres
+
+@enduml

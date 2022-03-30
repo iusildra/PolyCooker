@@ -11,7 +11,7 @@ defineProps({
 <template>
     <div class="container">
         <div>
-            <img :src="info.src" :alt="info.name +'\'s picture'">
+            <img src="../assets/img/food.png" :alt="info.name +'\'s picture'" height="200">
 
         </div>
         <div class="chip">{{ info.author }}</div>

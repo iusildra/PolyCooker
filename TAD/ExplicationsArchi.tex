@@ -1,0 +1,41 @@
+\part{Détails des choix et explications}
+\section{VueJs}
+\subsection{Raison principale}
+J'ai choisi d'utiliser \href{https://vuejs.org/}{VueJs} car il s'agissait d'une technologie qu'on a déjà vue lors du projet d'introduction au WEB. Pour un projet d'un peu moins de 3 semaines, j'ai préféré utiliser ce que je connaissais déjà plutôt que de me lancer dans une nouvelle technologie, pour éviter de perdre trop de temps lors de la prise en main. Si le projet avait été plus long, j'aurai probablement regardé un peu plus les autres possibilités.
+
+\subsection{Réactivité}
+J'ai beaucoup apprécié la réactivité de Vue et la facilité avec laquelle on pouvait créer des éléments dans le DOM (via le \textit{v-for} notamment). Comme je savais que j'allais avoir un affichage par tuile qui correspondrait au résultat d'une requête, cela m'a conforté dans mon choix.
+
+\subsection{Évènement}
+Il était extrêmement facile de gérer les différents évènements (clics de boutons, changement/chargement de page...) et grâce au stockage local de Vue (\href{https://vuex.vuejs.org/}{Vuex}), adapter le contenu de la page en fonction de l'utilisateur était très simple (en faisant néanmoins les vérifications d'identité dans le \textit{back})
+
+\subsection{Router}
+Le router de Vue (\href{https://router.vuejs.org/}{Vue Router}) permet de facilement changer un seul composant sans avoir à recharger toute la page, ce qui me fut utile pour éviter d'avoir à regarder les composants \textit{Header} \& \textit{Footer}
+\section{NodeJs \& Express}
+Ne souhaitant pas faire de PHP, j'ai donc fait tout mon site en Javascript. J'ai alors utilisé \href{https://nodejs.org/en/}{NodeJs} pour la création du serveur. Pour gérer l'API j'ai choisi \href{https://expressjs.com/}{ExpressJs}, un framework open-source permettant de gérer facilement les routes et d'analyser automatiquement les requêtes HTTP (ce qui m'aura permis d'éviter de recoder tout le routage).
+
+\section{Contraintes métiers}
+\subsection{Scalabilité}
+\href{https://polycooker.cluster-ig3.igpolytech.fr/api}{PolyCooker©} utilise le cache pour les fonctionnalités d'autocomplétion, qui à terme repré-senteront de grosses requêtes (notamment lors de la création de recette)
+
+\vspace{\baselineskip}
+Comme les requêtes deviendront très lourdes au fur et à mesure que les utilisateurs vont rajouter des recettes et ingrédients, une limite (actuellement statique) a été fixée à 25 résultats par requête. À l'avenir cette limite pourrait évoluer mais devra rester relativement faible du fait de la quantité d'information à envoyer (dont les images\dots)
+
+\vspace{\baselineskip}
+Pour récupérer les styles et scripts de \href{https://materializecss.com/}{Materialize}, PolyCooker© passe par les CDNs, permettant ainsi un temps de chargement plus faible et une meilleure expérience utilisateur.
+
+
+\subsection{Sécurité}
+L'application utilise des Json Web Tokens pour la vérification d'identité. Pour les requêtes GET il n'y a pas de vérification car pas d'altération de la base de données, et ceci permet aux visiteurs de faire le tour du site avant d'éventuellement s'inscrire.
+
+\vspace{\baselineskip}
+En revanche, dès qu'une methode autre que GET est lancé (POST, PUT, DELETE), le token est vérifié dans le \textit{back} avant d'effectuer la requête sur \href{https://www.postgresql.org/}{PostgreSQL}. Donc un utilisateur non connecté ne pourra pas créer de recettes / ingrédients et un utilisateur non administrateur ne pourra pas accéder à la fonctionnalité de création d'administrateurs ou de suppression de comptes (autre que le sien).
+
+\vspace{\baselineskip}
+Tous les mots de passe sont stockés encryptés et ne quitte pas la base de données, même sous forme de json web token.
+
+\vspace{\baselineskip}
+De plus, pour chaque requête SQL paramétrée, un pré-formattage a lieu pour prévenir les insertions.
+
+\subsection{Disponibilités}
+Le site est déployé sur \href{https://dokku.com/}{Dokku}, plateforme qui le maintiendra actif et qui peut prendre en charge les sauvegardes automatiques de la base de données. Donc les contraintes de disponibilités peuvent être respectée.
