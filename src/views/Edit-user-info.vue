@@ -42,7 +42,6 @@
 
 <script>
 import AuthService from "../services/AuthServices";
-import bcryptjs from "bcryptjs"
 import M from "materialize-css";
 M.AutoInit();
 export default {
@@ -59,12 +58,6 @@ export default {
                     credentials[elt.id] = elt.value;
                 });
                 credentials["id"] = this.$store.getters.getUser.user_id;
-
-                if (credentials["passwd"] != credentials["passwd_repeat"]) {
-                    M.toast({html: "Both passwords must match !", classes:"rounded"})
-                    return
-                }
-                credentials["passwd"] = bcryptjs.hashSync(credentials["passwd"], 10)
                 const response = await AuthService.updateData(credentials);
                 M.toast({ html: response.msg, classes: "rounded" });
             } catch (error) {

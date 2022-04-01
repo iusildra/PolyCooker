@@ -1,0 +1,15 @@
+Mesdames, messieurs, bonjour, je m'appelle Lucas Nouguier et je vais vous présenter mon site de cuisine dénommé PolyCooker
+
+Tout d'abord, parlons du contexte : 
+	- L'objectif principal de ce site est d'optimiser les courses alimentaires. Vous pouvez donc dire adieu aux oublis d'oeufs pour vos crêpes, vous aurez une liste intégrale de ce qu'il vous faudra acheter.
+	- Ce service est accessible à n'importe qui mais pour accéder à la planification des courses, il faudra être connecté.
+	
+Maintenant je vais vous présenter le site, mais d'abord je tiens à préciser que le site s'adapte bien à toutes les tailles d'écran, à l'exception de 2-3 boutons et pastilles :
+	- En premier lieu voici les pages de création de compte et de connexion. Une adresse mail valide est requise et le mot de passe est stocké encrypté. En cas d'erreur des petits toast apparaissent en haut de l'écran
+	- Vous donc avez ici la page d'accueil de PolyCooker avec un affichage par tuile, une barre de recherche et un menu déroulant pour toute action liée au compte utilisateur.
+		+ Vous pouvez faire une recherche en combinant n'importe lequel de ces champs. La seule particularité est le champs des ingrédients : il dispose d'une autocomplétion et d'un affichage par pastille
+		+ En bas à droite vous avez le bouton permettant de créer de nouvelles recettes, accessible uniquement lorsqu'on est connecté
+	- Ce qui fait que PolyCooker possède les fonctionnalité courantes des applications de cuisine (création de recette, autocomplétion). Mais il possède d'autres plus spécifiques :
+		- Une création d'ingrédients au cas où il en manque
+		- Un calendrier de prévision des repas
+		- Une génération de la liste de course en fonction de ce qui a été entré dans le calendrier

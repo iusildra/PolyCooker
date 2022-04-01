@@ -40,7 +40,6 @@
 
 <script>
 import AuthService from "../services/AuthServices";
-import bcryptjs from "bcryptjs"
 import M from "materialize-css";
 M.AutoInit();
 export default {
@@ -67,7 +66,7 @@ export default {
                 return;
             }
             try {
-                let credentials = {};
+                const credentials = {};
                 document.querySelectorAll("#signup input").forEach((elt) => {
                     if (elt.type == "checkbox") {
                         credentials[elt.id] = elt.checked;
@@ -75,12 +74,6 @@ export default {
                         credentials[elt.id] = elt.value;
                     }
                 });
-                if (credentials["passwd"] != credentials["passwd_repeat"]) {
-                    M.toast({html: "Both passwords must match !", classes:"rounded"})
-                    return
-                }
-
-                credentials["passwd"] = bcryptjs.hashSync(credentials["passwd"], 10)
                 const response = await AuthService.signup(credentials);
                 M.toast({ html: response.msg, classes: "rounded" });
                 this.$router.push("/signin");
